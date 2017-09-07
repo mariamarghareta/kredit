@@ -245,7 +245,7 @@ class Transaksimaster extends CI_Controller {
                 }
             }
             
-            if(count($this->data['header']->balik_nama) < $this->data['header']->cicilan_baliknama){
+            if(count($this->data['detail_baliknama']) < ($this->data['header']->cicilan_baliknama)){
                 $this->data['show_balik'] = "";
             }
             

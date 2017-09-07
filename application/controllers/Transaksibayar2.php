@@ -193,9 +193,7 @@ class Transaksibayar2 extends CI_Controller {
         $this->get_data();
         $this->data['jatuh_tempo'] = $this->input->post('jatuh_tempo');
         $this->data['tgl_bayar'] = $this->input->post('tgl_bayar');
-        if($this->data['tipe_bayar'] != 5){
-            $this->form_validation->set_rules('tgl_bayar', 'Tanggal Bayar', 'required', array('required' => '%s harus dipilih', 'check_date' => 'Tanggal harus lebih besar dari hari ini'));
-        }
+        $this->form_validation->set_rules('tgl_bayar', 'Tanggal Bayar', 'required', array('required' => '%s harus dipilih', 'check_date' => 'Tanggal harus lebih besar dari hari ini'));
 		$this->form_validation->set_rules('jatuh_tempo', 'Jatuh Tempo', 'required', array('required' => '%s harus dipilih', 'check_date' => 'Tanggal harus lebih besar dari hari ini'));
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>'); 
         
@@ -319,17 +317,7 @@ class Transaksibayar2 extends CI_Controller {
                     $this->load->view('transaksi-bayar2', $this->data);
                 }
             }else if($this->form_validation->run() == ""){
-                if($this->data['tipe_bayar']== 5){
-                    $hasil = $this->Baliknama->insert($this->data['kd_trans'], $this->input->post('balik_nama'), $_SESSION['kd_kar'], $this->input->post('tgl_bayar'));
-                    if($hasil != null){
-                        $this->destroy_data_session();
-                        $this->data['kd_fin']= $hasil->kd_nota;
-                        $this->load->view('trans_berhasil3', $this->data);
-                    }else{
-                        $this->data['msg'] = "<div id='err_msg' class='alert alert-danger sldown' style='display:none;'>Insert data pembayaran cash gagal</div>";
-                        $this->load->view('transaksi-bayar2', $this->data);
-                    }
-                } else if($this->data['tipe_bayar']== 6){
+                if($this->data['tipe_bayar']== 6){
                     $hasil = $this->Ppjb->insert($this->data['kd_trans'], $this->data['ppjb'], $this->data['tgl_bayar'], $this->data['kd_agen'], $_SESSION['kd_kar']);
                     if($hasil != null){
                         $this->destroy_data_session();

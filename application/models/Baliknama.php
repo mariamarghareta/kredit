@@ -18,7 +18,7 @@ class Baliknama extends CI_Model {
             'bayar'=>$biaya,
             'kd_kar'=>$kd_kar,
             'tgl_trans'=>date('Y-m-d',strtotime($tgl_trans)),
-			'jatuh_tempo' => $jatuh_tempo,
+			'jatuh_tempo' => date('Y-m-d',strtotime($jatuh_tempo)),
 			'is_transfer' => $is_transfer
         );
         $query = $this->db->insert('balik_nama', $array);
@@ -33,8 +33,8 @@ class Baliknama extends CI_Model {
             ->from('balik_nama')
             ->where('kd_trans', $kd_trans)
             ->where('bayar', $biaya)
-            ->where('tgl_trans', $tgl_trans)
-            ->where('jatuh_tempo', $jatuh_tempo)
+            ->where('tgl_trans', date('Y-m-d',strtotime($tgl_trans)))
+            ->where('jatuh_tempo', date('Y-m-d',strtotime($jatuh_tempo)))
             ->get()
             ->row();
         return $query;
@@ -56,9 +56,12 @@ class Baliknama extends CI_Model {
         return $this->db->update('balik_nama', $array);
     }
     public function cek_detail_transaksi($kd_trans){
-        $query = $this->db->select('kd_nota, DATE_FORMAT(tgl_trans, "%d-%m-%Y") as tgl_trans, bayar, kd_kar, updated, deleted')
-            ->from('balik_nama')
+        $query = $this->db->select('bn.kd_nota, DATE_FORMAT(bn.tgl_trans, "%d-%m-%Y") as tgl_trans, bn.bayar, bn.kd_kar, bn.updated, bn.deleted, k.nama')
+            ->from('balik_nama bn')
+            ->join('karyawan k','k.kd_kar = bn.kd_kar')
             ->where('kd_trans', $kd_trans)
+            ->order_by("bn.tgl_trans","asc")
+            ->order_by("bn.updated","asc")
             ->get();
         return $query->result();
     }

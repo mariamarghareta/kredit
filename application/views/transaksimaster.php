@@ -200,42 +200,51 @@
                 <div class="header-div col-sm-11 col-sm-offset-1 mt" id="div-balik">
                     <span class="fa fa-info"></span><span>BALIK NAMA</span>
                 </div>
-                <div class="col-sm-11 col-sm-offset-1 form-horizontal white-bg" id="div-balik-info" style="display:none;"> 
-                    <div class="form-group">
-                        <label class="control-label col-sm-6 col-xs-6" for="uname">Biaya Balik Nama:</label>
-                        <div class="control-label col-sm-6 col-xs-6 text-left"><?="Rp ". number_format($header->balik_nama ,0,',','.') ?></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-6 col-xs-6" for="uname">Karyawan yang Mengurus:</label>
-                        <div class="control-label col-sm-6 col-xs-6 text-left"><?=$header->bn_kar_nama?></div>
-                    </div>
-                    <div class="col-sm-12 mb mt">
-                        
-                        <?php
-                        if($header->bn_kd_nota != null){
-                            $attributes = array('class' => 'form-horizontal', 'id' => 'edit_ppjb');
-                            echo form_open('Transaksimaster/edit_baliknama', $attributes); 
-                            echo "
+                <div class="col-sm-11 col-sm-offset-1 form-horizontal white-bg" id="div-balik-info" style="display:none;">
+                    <?php
+                        $ctr = 0;
+                        foreach ($detail_baliknama as $item) {
+                            $ctr++;
+                            ?>
+                            <div class="form-group">
+                                <label class="control-label col-sm-6 col-xs-6" for="uname">Biaya Balik Nama ke-<?=$ctr?>:</label>
+                                <div class="control-label col-sm-6 col-xs-6 text-left"><?= "Rp " . number_format($item->bayar, 0, ',', '.') ?></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-6 col-xs-6" for="uname">Karyawan yang
+                                    Mengurus:</label>
+                                <div class="control-label col-sm-6 col-xs-6 text-left"><?= $item->nama ?></div>
+                            </div>
+                            <div class="col-sm-12 mb mt">
+
+                                <?php
+                                if ($header->bn_kd_nota != null) {
+                                    $attributes = array('class' => 'form-horizontal', 'id' => 'edit_ppjb');
+                                    echo form_open('Transaksimaster/edit_baliknama', $attributes);
+                                    echo "
                             <div class='col-sm-6 col-xs-6 text-right'>
-                            <input type='hidden' value='$header->bn_kd_nota' name='kd_nota'>
+                            <input type='hidden' value='$item->kd_nota' name='kd_nota'>
                             <input type='hidden' value='$kd_trans' name='kd_trans'>
                             <button type='submit' id='edit' name='edit' class='btn btn-success'>Edit</button>
                             </div>
                             ";
-                            echo form_close();
-                            
-                            $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_cicilan', 'target' => '_blank');
-                            echo form_open('Mid/print_nota_again', $attributes); 
-                            echo "
+                                    echo form_close();
+
+                                    $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_cicilan', 'target' => '_blank');
+                                    echo form_open('Mid/print_nota_again', $attributes);
+                                    echo "
                             <div class='col-sm-6 col-xs-6 text-left'>
-                            <input type='hidden' value='$header->bn_kd_nota' name='kd_nota'>
+                            <input type='hidden' value='$item->kd_nota' name='kd_nota'>
                             <button type='submit' id='edit' name='edit' class='btn btn-success'>Print</button>
                             </div>
                             ";
-                            echo form_close();
+                                    echo form_close();
+                                }
+                                ?>
+                            </div>
+                            <?php
                         }
-                        ?>
-                    </div>
+                    ?>
                 </div>
                 
                 <div class="header-div col-sm-11 col-sm-offset-1 mt" id="div-ppjb">
