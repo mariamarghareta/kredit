@@ -10,6 +10,7 @@ class Cash extends CI_Model {
 
     public function insert($data){
         $tgl_trans = date('Y-m-d');
+        if ($data["is_transfer"] == null){$data["is_transfer"] = 0;}
         $query = array(
             'kd_trans' =>$data['kd_trans'],
             'bayar'=> $data['bayar_final'],
@@ -52,7 +53,7 @@ class Cash extends CI_Model {
         return $query;
     }
     public function grab_data($kd_nota){
-        $query = $this->db->select('kd_nota, kd_trans, DATE_FORMAT(tgl_trans, "%d-%m-%Y") as tgl_trans, bayar, DATE_FORMAT(jatuh_tempo, "%d-%m-%Y") as jatuh_tempo, kd_kar, updated, deleted')
+        $query = $this->db->select('kd_nota, kd_trans, DATE_FORMAT(tgl_trans, "%d-%m-%Y") as tgl_trans, bayar, DATE_FORMAT(jatuh_tempo, "%d-%m-%Y") as jatuh_tempo, kd_kar, updated, deleted, is_transfer')
                 ->from('cash')
                 ->where('kd_nota',$kd_nota)
                 ->where('deleted',0)
@@ -60,11 +61,12 @@ class Cash extends CI_Model {
                 ->row();
         return $query;
     }
-    public function update_cash($kd_nota, $tgl_trans, $bayar, $jatuh_tempo){
+    public function update_cash($kd_nota, $tgl_trans, $bayar, $jatuh_tempo, $is_transfer){
          $array = array(
             'tgl_trans' => date('Y-m-d',strtotime($tgl_trans)),
             'bayar' => $bayar,
-            'jatuh_tempo' => date('Y-m-d',strtotime($jatuh_tempo))
+            'jatuh_tempo' => date('Y-m-d',strtotime($jatuh_tempo)),
+             'is_transfer' => $is_transfer
         );
         $this->db->where('kd_nota', $kd_nota);
         return $this->db->update('cash', $array);

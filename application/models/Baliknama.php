@@ -40,23 +40,25 @@ class Baliknama extends CI_Model {
         return $query;
     }
     public function grab_data($kd_nota){
-        $query = $this->db->select('kd_nota, kd_trans, DATE_FORMAT(tgl_trans, "%d-%m-%Y") as tgl_trans, bayar, kd_kar, updated, deleted')
+        $query = $this->db->select('kd_nota, kd_trans, DATE_FORMAT(tgl_trans, "%d-%m-%Y") as tgl_trans, bayar, kd_kar, updated, deleted, is_transfer, DATE_FORMAT(jatuh_tempo, "%d-%m-%Y") as jatuh_tempo')
             ->from('balik_nama')
             ->where('kd_nota', $kd_nota)
             ->get()
             ->row();
         return $query;
     }
-    public function update_bn($kd_nota, $tgl_trans, $bayar){
+    public function update_bn($kd_nota, $tgl_trans, $bayar, $is_transfer, $jatuh_tempo){
         $array = array(
             'tgl_trans' => date('Y-m-d',strtotime($tgl_trans)),
-            'bayar' => $bayar
+            'bayar' => $bayar,
+            'is_transfer' => $is_transfer,
+            'jatuh_tempo' => date('Y-m-d',strtotime($jatuh_tempo))
         );
         $this->db->where('kd_nota', $kd_nota);
         return $this->db->update('balik_nama', $array);
     }
     public function cek_detail_transaksi($kd_trans){
-        $query = $this->db->select('bn.kd_nota, DATE_FORMAT(bn.tgl_trans, "%d-%m-%Y") as tgl_trans, bn.bayar, bn.kd_kar, bn.updated, bn.deleted, k.nama')
+        $query = $this->db->select('bn.kd_nota, DATE_FORMAT(bn.tgl_trans, "%d-%m-%Y") as tgl_trans, bn.bayar, bn.kd_kar, bn.updated, bn.deleted, k.nama, bn.is_transfer, DATE_FORMAT(bn.jatuh_tempo, "%d-%m-%Y") as jatuh_tempo')
             ->from('balik_nama bn')
             ->join('karyawan k','k.kd_kar = bn.kd_kar')
             ->where('kd_trans', $kd_trans)

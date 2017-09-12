@@ -33,6 +33,7 @@ class Transaksi extends CI_Model {
             'updated'=> date('Y-m-d'),
             'deleted'=> "0",
             'baliknama' => $data['tb_bulanbaliknama'],
+            'biayabaliknama' => $data['tb_biayabaliknama'],
             'kd_agen' => $data['cb_agen'],
         );
 
@@ -272,7 +273,7 @@ class Transaksi extends CI_Model {
     }
     public function cek_header_transaksi($kd_trans){
         
-        $query = $this->db->select('t.*, c.*, b.nama_blok, b.kd_blok , ta.nomor_tanah, ta.kd_tanah , ifnull(bn.bayar,0) as balik_nama, bn.kd_nota as bn_kd_nota, kar.nama as bn_kar_nama, book.bayar as bayar_book, book.kd_nota as book_kd_nota, t.baliknama as cicilan_baliknama')
+        $query = $this->db->select('t.*, c.*, b.nama_blok, b.kd_blok , ta.nomor_tanah, ta.kd_tanah , ifnull(bn.bayar,0) as balik_nama, bn.kd_nota as bn_kd_nota, kar.nama as bn_kar_nama, book.bayar as bayar_book, book.kd_nota as book_kd_nota, t.baliknama as cicilan_baliknama, t.biayabaliknama as besar_baliknama')
             ->from('transaksi t')
             ->join('customer c', 'c.kd_cust = t.kd_cust')
             ->join('tanah ta', 'ta.kd_tanah = t.kd_tanah')
@@ -294,6 +295,8 @@ class Transaksi extends CI_Model {
                 ->from('cash c')
                 ->join('karyawan kar', 'kar.kd_kar = c.kd_kar')
                 ->where('kd_trans', $kd_trans)
+                ->order_by("c.tgl_trans","asc")
+                ->order_by("c.updated","asc")
                 ->get()
                 ->result_array();
             return $query;
@@ -539,7 +542,7 @@ class Transaksi extends CI_Model {
             (select max(updated) from cash where kd_trans = $kode)) as temp ORDER BY temp.updated desc LIMIT 1");
         return $query->row();
     }
-    public function update_header($old, $kd_cust, $kd_tanah, $tipe, $harga, $dp, $dp_cicilan, $diskon, $cicilan, $tipe_bayar){
+    public function update_header($old, $kd_cust, $kd_tanah, $tipe, $harga, $dp, $dp_cicilan, $diskon, $cicilan, $tipe_bayar, $cicilanbaliknama, $biayabaliknama){
         $array = array(
             'kd_tanah' => $kd_tanah,
             'kd_cust' => $kd_cust,
@@ -549,7 +552,9 @@ class Transaksi extends CI_Model {
             'dp_cicilan' => $dp_cicilan,
             'diskon' => $diskon,
             'cicilan' => $cicilan,
-            'tipe_bayar' => $tipe_bayar
+            'tipe_bayar' => $tipe_bayar,
+            'baliknama' => $cicilanbaliknama,
+            'biayabaliknama' => $biayabaliknama
         );
         $this->db->where('kd_trans', $old->kd_trans);
         return $this->db->update('transaksi', $array);

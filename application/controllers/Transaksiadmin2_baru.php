@@ -70,6 +70,7 @@ class Transaksiadmin2_baru extends CI_Controller {
         $this->data['tb_cidiskon']="";
         $this->data['tb_ciangsuran']="";
         $this->data['tb_bulanbaliknama']="";
+        $this->data['tb_biayabaliknama']="";
     }
     public function check_role(){
         if(isset($_SESSION['kd_role'])){
@@ -156,8 +157,9 @@ class Transaksiadmin2_baru extends CI_Controller {
             $this->form_validation->set_rules('tb_ciangsuran', '', 'required|greater_than[0]|less_than[41]', array('required' => 'Harus diisi', 'numeric' => 'Harus berupa angka', 'greater_than'=> 'Minimal 1x', 'less_than'=>'Maximal 40x'));
         }
         $this->form_validation->set_rules('tb_bulanbaliknama', '', 'required|greater_than[0]|less_than[21]', array('required' => 'Harus diisi', 'numeric' => 'Harus berupa angka', 'greater_than'=> 'Minimal 1x', 'less_than'=>'Maximal 20x'));
+        $this->form_validation->set_rules('tb_biayabaliknama', '', 'required', array('required' => 'Harus diisi'));
         $this->form_validation->set_rules('cb_agen', '', 'required', array('required' => 'Harus diisi'));
-        
+
         if ($this->form_validation->run() != FALSE){
             $this->data['tb_harga'] = str_replace(".", "", $this->input->post('tb_harga'));
             $this->data['tb_cashdiskon'] = str_replace(".", "", $this->input->post('tb_cashdiskon'));
@@ -168,6 +170,7 @@ class Transaksiadmin2_baru extends CI_Controller {
             $this->data['tb_cidiskon'] = str_replace(".", "", $this->input->post('tb_cidiskon'));
             $this->data['denda'] = str_replace(".", "", $this->input->post('tb_cidiskon'));
             $this->data['tb_bulanbaliknama'] = $this->input->post('tb_bulanbaliknama');
+            $this->data['tb_biayabaliknama'] = str_replace(".", "", $this->input->post('tb_biayabaliknama'));
             $this->data['cb_agen'] = $this->input->post('cb_agen');
             $array = array(
                 'hd_kode' => $this->data['hd_kode'],
@@ -187,8 +190,9 @@ class Transaksiadmin2_baru extends CI_Controller {
                 'tb_cidiskon' => $this->data['tb_cidiskon'],
                 'tb_ciangsuran' => $this->data['tb_ciangsuran'],
                 'cb_agen' => $this->data['cb_agen'],
-                'tb_bulanbaliknama' => $this->data['tb_bulanbaliknama']
-                
+                'tb_bulanbaliknama' => $this->data['tb_bulanbaliknama'],
+                'tb_biayabaliknama' => $this->data['tb_biayabaliknama']
+
             );
             //echo $this->data['tb_cashbayar'];
             $this->session->set_tempdata($array, NULL, 600);

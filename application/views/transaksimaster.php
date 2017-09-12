@@ -161,6 +161,10 @@
                         <div class="control-label col-sm-6 col-xs-6 text-left"><?=$header->cicilan . " bulan";?></div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-sm-6 col-xs-6" for="uname">Biaya Balik Nama:</label>
+                        <div class="control-label col-sm-6 col-xs-6 text-left"><?=$header->besar_baliknama;?></div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-sm-6 col-xs-6" for="uname">Banyaknya Cicilan Balik Nama:</label>
                         <div class="control-label col-sm-6 col-xs-6 text-left"><?=$header->cicilan_baliknama . " bulan";?></div>
                     </div>
@@ -203,8 +207,10 @@
                 <div class="col-sm-11 col-sm-offset-1 form-horizontal white-bg" id="div-balik-info" style="display:none;">
                     <?php
                         $ctr = 0;
+                        $total = 0;
+                        $jatuh_tempo = "";
                         foreach ($detail_baliknama as $item) {
-                            $ctr++;
+                            $ctr++; $total += $item->bayar; $jatuh_tempo = $item->jatuh_tempo;
                             ?>
                             <div class="form-group">
                                 <label class="control-label col-sm-6 col-xs-6" for="uname">Biaya Balik Nama ke-<?=$ctr?>:</label>
@@ -214,6 +220,11 @@
                                 <label class="control-label col-sm-6 col-xs-6" for="uname">Karyawan yang
                                     Mengurus:</label>
                                 <div class="control-label col-sm-6 col-xs-6 text-left"><?= $item->nama ?></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-6 col-xs-6" for="uname">Karyawan yang
+                                    Mengurus:</label>
+                                <div class="control-label col-sm-6 col-xs-6 text-left"><?= $item->tgl_trans ?></div>
                             </div>
                             <div class="col-sm-12 mb mt">
 
@@ -242,9 +253,21 @@
                                 }
                                 ?>
                             </div>
+
+
+
                             <?php
+                            echo "<div class='col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3 bb line'></div>";
                         }
                     ?>
+                    <div class='form-group'>
+                        <label class="control-label col-sm-6 col-xs-6" for="uname">Total:</label>
+                        <div class="control-label col-sm-6 col-xs-6 text-left"><?="Rp ".  number_format($total,0,",",".") ?></div>
+                    </div>
+                    <div class='form-group'>
+                        <label class="control-label col-sm-6 col-xs-6" for="uname">Sisa:</label>
+                        <div class="control-label col-sm-6 col-xs-6 text-left"><?="Rp ".  number_format($header->biayabaliknama - $total,0,",",".") ?></div>
+                    </div>
                 </div>
                 
                 <div class="header-div col-sm-11 col-sm-offset-1 mt" id="div-ppjb">
@@ -820,9 +843,24 @@
                     <input type="hidden" name="tipe_bayar" value="<?=$header->tipe_bayar?>"/>
                     <input type="hidden" name="nama_tanah" value="<?=$header->nama_blok. " " .$header->nomor_tanah?>"/>
 					<input type="hidden" name="ctr" value="<?=count($detail_baliknama)+1?>"/>
-                    <div class="col-sm-12 form-horizontal"> 
+                    <div class="col-sm-12 form-horizontal">
+                        <?php
+                        $dt = new DateTime();
+                        $dt->setTimezone(new DateTimeZone('GMT+7'));
+
+                        if($dt->format("Y-m-d") > $jatuh_tempo){
+                            ?>
+                            <div class="form-group">
+                                <label class="control-label col-sm-6"></label>
+                                <div class="col-sm-12">
+                                    <div class='alert alert-danger text-center'>Sudah Jatuh Tempo</div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
                         <div class="form-group">
-                            <label class="control-label col-sm-6">Biaya Balik Nama/Sertifikat ke-<?=count($detail_baliknama)+1?>:</label>
+                            <label class="control-label col-sm-6">Cicilan Balik Nama/Sertifikat ke-<?=count($detail_baliknama)+1?>:</label>
                             <div class="col-sm-6 ">
                                 <?php echo form_input(array('name'=>'balik_nama', 'id'=>'balik_nama', 'class'=>'form-control', 'placeholder'=>'Biaya balik nama'), $balik_nama);?>
                                 <?php echo form_error('balik_nama'); ?>

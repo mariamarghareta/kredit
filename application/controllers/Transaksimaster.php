@@ -69,7 +69,8 @@ class Transaksimaster extends CI_Controller {
         $this->data['error_transaksi_show'] = "";
         $this->data['error_transaksi'] = "";
         $this->data['diskon1'] = "";
-        
+        $this->data['besar_baliknama'] = "";
+
     }
     public function check_role(){
         if(isset($_SESSION['kd_role'])){
@@ -509,8 +510,8 @@ class Transaksimaster extends CI_Controller {
         $this->data['kd_trans'] = $this->input->post('kd_trans');
         $this->data['tgl_trans'] = $this->input->post('tgl_trans');
         $this->data['bayar'] = $this->input->post('bayar');
-       
-        
+        $this->data['is_transfer'] = $this->input->post('is_transfer');
+        $this->data['tgl_jatuhtempo'] = $this->input->post('tgl_jatuhtempo');
         if($this->input->post('kembali')==TRUE){
             $array = array(
                 'master'=>$this->data['kd_trans']
@@ -520,7 +521,7 @@ class Transaksimaster extends CI_Controller {
         } else {
             $this->data['bayar'] = str_replace(".", "", $this->data['bayar']);
             
-            $hasil = $this->Baliknama->update_bn($this->data['kd_nota'], $this->data['tgl_trans'], $this->data['bayar']);
+            $hasil = $this->Baliknama->update_bn($this->data['kd_nota'], $this->data['tgl_trans'], $this->data['bayar'], $this->data['is_transfer'], $this->data['tgl_jatuhtempo']);
             if($hasil == 1){
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-success sldown text-center' style='display:none;'>Update Berhasil</div>";
             }else{
@@ -558,7 +559,8 @@ class Transaksimaster extends CI_Controller {
         $this->data['bayar'] = $this->input->post('bayar');
         $this->data['jatuh_tempo'] = $this->input->post('jatuh_tempo');
         $this->data['denda'] = $this->input->post('denda');
-        
+        $this->data['is_transfer'] = $this->input->post('is_transfer');
+
         if($this->input->post('kembali')==TRUE){
             $array = array(
                 'master'=>$this->data['kd_trans']
@@ -570,11 +572,11 @@ class Transaksimaster extends CI_Controller {
             $this->data['bayar'] = str_replace(".", "", $this->data['bayar']);
             $this->data['denda'] = str_replace(".", "", $this->data['denda']);
             if($temp == "D"){
-                $hasil = $this->Dp->update_dp($this->data['kd_nota'], $this->data['tgl_trans'], $this->data['bayar'], $this->data['jatuh_tempo']);
+                $hasil = $this->Dp->update_dp($this->data['kd_nota'], $this->data['tgl_trans'], $this->data['bayar'], $this->data['jatuh_tempo'], $this->data['is_transfer']);
             }else if($temp == "C"){
-                $hasil = $this->Cash->update_cash($this->data['kd_nota'], $this->data['tgl_trans'], $this->data['bayar'], $this->data['jatuh_tempo']);
+                $hasil = $this->Cash->update_cash($this->data['kd_nota'], $this->data['tgl_trans'], $this->data['bayar'], $this->data['jatuh_tempo'], $this->data['is_transfer']);
             }else if($temp == "I"){
-                $hasil = $this->Cicilan->update_cicil($this->data['kd_nota'], $this->data['tgl_trans'], $this->data['bayar'], $this->data['jatuh_tempo'], $this->data['denda']);
+                $hasil = $this->Cicilan->update_cicil($this->data['kd_nota'], $this->data['tgl_trans'], $this->data['bayar'], $this->data['jatuh_tempo'], $this->data['denda'], $this->data['is_transfer']);
             }
             if($hasil == 1){
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-success sldown text-center' style='display:none;'>Update Berhasil</div>";

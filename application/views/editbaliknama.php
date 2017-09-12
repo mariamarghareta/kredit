@@ -54,7 +54,7 @@
           <section class="wrapper site-min-height">
           	
             <div class="header-div col-sm-8 col-sm-offset-2 mt" id="div-ppjb">
-                <span class="fa fa-info"></span><span>PPJB</span>
+                <span class="fa fa-info"></span><span>Balik Nama</span>
             </div>
             <div class="col-sm-8 col-sm-offset-2 form-horizontal white-bg"> 
                 <?php 
@@ -82,8 +82,28 @@
                     </div>
                     
                 </div>
-                
-               
+                <div class="form-group">
+                    <label class="control-label col-sm-6 col-xs-6" >Melalui Transfer:</label>
+                    <div class="col-sm-5 ">
+                        <?php
+                            if ($bn->is_transfer == 1){
+                                echo form_checkbox(array('id'=>'is_transfer', 'name' => 'is_transfer', 'value' => "1", 'checked' => "checked"));
+                            }else{
+                                echo form_checkbox(array('id'=>'is_transfer', 'name' => 'is_transfer', 'value' => "1"));
+                            }
+                        ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-6 col-xs-6" >Tanggal Jatuh Tempo:</label>
+                    <div class="col-sm-5 ">
+                        <div class="date" data-date="" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2" data-link-format="dd-mm-yyyy">
+                            <input class="form-control datepicker"  data-date-format="dd-mm-yyyy" type="text" name="tgl_jatuhtempo" style="width:150px" placeholder="dd-mm-yyyy" autocomplete="off" value="<?=$bn->jatuh_tempo?>" >
+                            <?php echo form_error('tgl_jatuhtempo'); ?>
+                        </div>
+                    </div>
+
+                </div>
                 <div class="col-sm-12 text-center mt">
                     <button type="submit" value="update" class="btn btn-success" name="btn-tog-cari" id="btn-up">Update</button>
                     <button type="submit" value="kembali" id="kembali" name="kembali" class="btn btn-success" name="btnkembali" id="btnkembali">Back</button>

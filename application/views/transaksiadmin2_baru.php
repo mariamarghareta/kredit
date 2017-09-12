@@ -195,6 +195,20 @@
                                     </select>
                                 </div>
                             </div>
+                             <div class="form-group">
+                                 <label class="control-label col-sm-4" for="uname">Cicilan Balik Nama:</label>
+                                 <div class="col-sm-8">
+                                     <?php echo form_input(array('name'=>'tb_bulanbaliknama', 'id'=>'tb_bulanbaliknama', 'class'=>'form-control', 'placeholder'=>'Masukkan cicilan balik nama berapa bulan'), $tb_bulanbaliknama);?>
+                                     <?php echo form_error('tb_bulanbaliknama'); ?>
+                                 </div>
+                             </div>
+                             <div class="form-group">
+                                 <label class="control-label col-sm-4" for="uname">Biaya Balik Nama:</label>
+                                 <div class="col-sm-8">
+                                     <?php echo form_input(array('name'=>'tb_biayabaliknama', 'id'=>'tb_biayabaliknama', 'class'=>'form-control', 'placeholder'=>'Masukkan biaya balik nama berapa bulan'), $tb_biayabaliknama);?>
+                                     <?php echo form_error('tb_biayabaliknama'); ?>
+                                 </div>
+                             </div>
                         </div>
                         <div id="bayar_cash" style="display:none;" class="col-sm-12 form-horizontal">
                             <div class="form-group">
@@ -218,14 +232,6 @@
                                     <?php echo form_error('tb_cashbulan'); ?>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-4" for="uname">Cicilan Balik Nama:</label>
-                                <div class="col-sm-8">
-                                    <?php echo form_input(array('name'=>'tb_bulanbaliknama', 'id'=>'tb_bulanbaliknama', 'class'=>'form-control', 'placeholder'=>'Masukkan cicilan balik nama berapa bulan'), $tb_bulanbaliknama);?>
-                                    <?php echo form_error('tb_bulanbaliknama'); ?>
-                                </div>
-                            </div>
-                            
                         </div>
                         <div id="bayar_booking" style="display:none;" class="col-sm-12 form-horizontal">
                             <div class="form-group">
@@ -319,6 +325,7 @@
             $("#tb_cidiskon").maskMoney({thousands:'.', decimal:',', precision:0});
             $("#tb_harga").maskMoney({thousands:'.', decimal:',', precision:0});
             $("#tb_cashbayar").maskMoney({thousands:'.', decimal:',', precision:0});
+            $("#tb_biayabaliknama").maskMoney({thousands:'.', decimal:',', precision:0});
 
             $("#cb_tipebayar").ready(load_bayar);
             $("#cb_tipebayar").change(load_bayar);

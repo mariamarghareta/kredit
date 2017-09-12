@@ -50,6 +50,8 @@ class Editheader extends CI_Controller {
         $this->data['msg']="";
         $this->data['show_range']="none";
         $this->data['show_bulan']="none";
+        $this->data['$tb_bulanbaliknama']="";
+        $this->data['$tb_biayabaliknama']="";
     }
     public function get_tanah(){
         $kode = $this->input->post('keyword');
@@ -77,6 +79,8 @@ class Editheader extends CI_Controller {
         $this->data['diskon'] = $this->data['header']->diskon;
         $this->data['cicilan'] = $this->data['header']->cicilan;
         $this->data['tipe_bayar'] = $this->data['header']->tipe_bayar;
+        $this->data['tb_bulanbaliknama'] = $this->data['header']->cicilan_baliknama;
+        $this->data['tb_biayabaliknama'] = $this->data['header']->besar_baliknama;
         $this->show();
     }
     public function update_header(){
@@ -95,7 +99,9 @@ class Editheader extends CI_Controller {
         $this->data['diskon'] = str_replace(".", "", $this->input->post('diskon'));
         $this->data['cicilan'] = $this->input->post('cicilan');
         $this->data['tipe_bayar'] = $this->input->post('tipe_bayar');
-        
+        $this->data['tb_bulanbaliknama'] = $this->input->post('tb_bulanbaliknama');
+        $this->data['tb_biayabaliknama'] = $this->input->post('tb_biayabaliknama');
+
         if(($this->input->post('kembali'))== TRUE){
             $array = array(
                 'master' => $this->input->post('kd_trans')
@@ -104,12 +110,11 @@ class Editheader extends CI_Controller {
             redirect('Transaksimaster/cek_nota');
         }else{
             if(($this->data['header']->tipe_bayar == 1 && $this->data['tipe_bayar'] == 2)){
-                $hasil = $this->Transaksi->update_header($this->data['header'], $this->data['hd_kode'], $this->data['cb_tanah'], $this->data['tipe'], $this->data['harga'], $this->data['dp'], $this->data['dp_cicilan'], $this->data['diskon'], $this->data['cicilan'], 1);
+                $hasil = $this->Transaksi->update_header($this->data['header'], $this->data['hd_kode'], $this->data['cb_tanah'], $this->data['tipe'], $this->data['harga'], $this->data['dp'], $this->data['dp_cicilan'], $this->data['diskon'], $this->data['cicilan'], 1, $this->data['tb_bulanbaliknama'], $this->data['tb_biayabaliknama']);
             }else{
                 $this->Gantibayar->insert($this->input->post('kd_trans'), $this->data['header']->tipe_bayar , $_SESSION['kd_kar']);
-                $hasil = $this->Transaksi->update_header($this->data['header'], $this->data['hd_kode'], $this->data['cb_tanah'], $this->data['tipe'], $this->data['harga'], $this->data['dp'], $this->data['dp_cicilan'], $this->data['diskon'], $this->data['cicilan'], $this->data['tipe_bayar']);
+                $hasil = $this->Transaksi->update_header($this->data['header'], $this->data['hd_kode'], $this->data['cb_tanah'], $this->data['tipe'], $this->data['harga'], $this->data['dp'], $this->data['dp_cicilan'], $this->data['diskon'], $this->data['cicilan'], $this->data['tipe_bayar'], $this->data['tb_bulanbaliknama'], $this->data['tb_biayabaliknama']);
             }
-            
             $this->show();
         }
     }

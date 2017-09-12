@@ -193,6 +193,7 @@ class Transaksibayar2 extends CI_Controller {
         $this->get_data();
         $this->data['jatuh_tempo'] = $this->input->post('jatuh_tempo');
         $this->data['tgl_bayar'] = $this->input->post('tgl_bayar');
+        $this->data['is_transfer'] = $this->input->post('is_transfer');
         $this->form_validation->set_rules('tgl_bayar', 'Tanggal Bayar', 'required', array('required' => '%s harus dipilih', 'check_date' => 'Tanggal harus lebih besar dari hari ini'));
 		$this->form_validation->set_rules('jatuh_tempo', 'Jatuh Tempo', 'required', array('required' => '%s harus dipilih', 'check_date' => 'Tanggal harus lebih besar dari hari ini'));
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>'); 

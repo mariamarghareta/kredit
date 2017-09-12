@@ -14,6 +14,7 @@ class Cicilan extends CI_Model {
                 ->join('karyawan kar', 'kar.kd_kar = i.kd_kar')
                 ->where('kd_trans', $kd_trans)
                 ->order_by("i.tgl_trans","ASC")
+                ->order_by("i.updated","ASC")
                 ->get()
                 ->result_array();
             return $query;
@@ -87,7 +88,7 @@ class Cicilan extends CI_Model {
         return $query;
     }
     public function grab_data($kd_nota){
-        $query = $this->db->select('kd_nota, kd_trans, denda, DATE_FORMAT(tgl_trans, "%d-%m-%Y") as tgl_trans, bayar, DATE_FORMAT(jatuh_tempo, "%d-%m-%Y") as jatuh_tempo, kd_kar, updated, deleted')
+        $query = $this->db->select('kd_nota, kd_trans, denda, DATE_FORMAT(tgl_trans, "%d-%m-%Y") as tgl_trans, bayar, DATE_FORMAT(jatuh_tempo, "%d-%m-%Y") as jatuh_tempo, kd_kar, updated, deleted, is_transfer')
                 ->from('cicilan')
                 ->where('kd_nota',$kd_nota)
                 ->where('deleted',0)
@@ -95,12 +96,13 @@ class Cicilan extends CI_Model {
                 ->row();
         return $query;
     }
-    public function update_cicil($kd_nota, $tgl_trans, $bayar, $jatuh_tempo, $denda){
+    public function update_cicil($kd_nota, $tgl_trans, $bayar, $jatuh_tempo, $denda, $is_transfer){
          $array = array(
             'tgl_trans' => date('Y-m-d',strtotime($tgl_trans)),
             'bayar' => $bayar,
             'jatuh_tempo' => date('Y-m-d',strtotime($jatuh_tempo)),
-            'denda' => $denda
+            'denda' => $denda,
+             'is_transfer' => $is_transfer
         );
         $this->db->where('kd_nota', $kd_nota);
         return $this->db->update('cicilan', $array);

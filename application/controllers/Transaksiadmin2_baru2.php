@@ -80,7 +80,8 @@ class Transaksiadmin2_baru2 extends CI_Controller {
         $this->data['tb_ciangsuran'] = $_SESSION['tb_ciangsuran'];
         $this->data['cb_agen'] = $_SESSION['cb_agen'];
         $this->data['tb_bulanbaliknama'] = $_SESSION['tb_bulanbaliknama'];
-        
+        $this->data['tb_biayabaliknama'] = $_SESSION['tb_biayabaliknama'];
+
         if($this->data['cb_tipebayar']=="cash"){
             $this->data['bayar_final'] = $this->data['tb_cashbayar'];
             $this->data['cicilan_final'] = $this->data['tb_cashbulan'];

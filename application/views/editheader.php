@@ -178,6 +178,20 @@
                             </select> 
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="uname">Cicilan Balik Nama:</label>
+                        <div class="col-sm-8">
+                            <?php echo form_input(array('name'=>'tb_bulanbaliknama', 'id'=>'tb_bulanbaliknama', 'class'=>'form-control', 'placeholder'=>'Masukkan cicilan balik nama berapa bulan'), $tb_bulanbaliknama);?>
+                            <?php echo form_error('tb_bulanbaliknama'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="uname">Biaya Balik Nama:</label>
+                        <div class="col-sm-8">
+                            <?php echo form_input(array('name'=>'tb_biayabaliknama', 'id'=>'tb_biayabaliknama', 'class'=>'form-control', 'placeholder'=>'Masukkan biaya balik nama berapa bulan'), $tb_biayabaliknama);?>
+                            <?php echo form_error('tb_biayabaliknama'); ?>
+                        </div>
+                    </div>
                     <div class="form-group" id="div-dp" style="display:none">
                         <label class="control-label col-sm-4 " for="uname">DP/UM:</label>
                         <div class="col-sm-8">
