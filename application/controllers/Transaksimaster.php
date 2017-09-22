@@ -315,14 +315,6 @@ class Transaksimaster extends CI_Controller {
                 redirect('Transaksibayar2');
             } else {
                 $this->cek_nota();
-                /*
-                $this->data['kd_trans']= $this->input->post('kd_trans');
-                $this->data['bayar']= $this->input->post('bayar');
-                $this->data['nama']= $this->input->post('nama');
-                $this->data['tipe_bayar']= $this->input->post('tipe_bayar');
-                $this->data['nama_tanah']= $this->input->post('nama_tanah');
-                $this->show();
-                */
             }
         }
     }

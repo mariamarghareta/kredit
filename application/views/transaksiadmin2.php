@@ -137,6 +137,10 @@
                         <div class="control-label col-sm-6 text-left col-xs-6"><?=$header->nama?></div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-sm-6 col-xs-6" for="uname">Nama Agen:</label>
+                        <div class="control-label col-sm-6 text-left col-xs-6"><?=$header->nama_agen?></div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-sm-6 col-xs-6" for="uname">Tanah:</label>
                         <div class="control-label col-sm-6 text-left col-xs-6"><?=$header->nama_blok. " " .$header->nomor_tanah?></div>
                     </div>
@@ -156,7 +160,14 @@
                         <label class="control-label col-sm-6 col-xs-6" for="uname">Banyaknya Angsuran:</label>
                         <div class="control-label col-sm-6 col-xs-6 text-left"><?=$header->cicilan . " bulan";?></div>
                     </div>
-                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-6 col-xs-6" for="uname">Biaya Balik Nama:</label>
+                        <div class="control-label col-sm-6 col-xs-6 text-left"><?=$header->besar_baliknama;?></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-6 col-xs-6" for="uname">Banyaknya Cicilan Balik Nama:</label>
+                        <div class="control-label col-sm-6 col-xs-6 text-left"><?=$header->cicilan_baliknama . " bulan";?></div>
+                    </div>
                     <div class="form-group">
                         <label class="control-label col-sm-6 col-xs-6" for="uname">Harga Jual:</label>
                         <div class="control-label col-sm-6 col-xs-6 text-left"><?="Rp ". number_format($header->harga ,0,',','.') ?></div>
@@ -176,28 +187,6 @@
                                 echo "
                                 <div class='col-sm-12 col-xs-12 text-center'>
                                 <input type='hidden' value='$header->book_kd_nota' name='kd_nota'>
-                                <button type='submit' id='edit' name='edit' class='btn btn-success'>Print</button>
-                                </div>
-                                ";
-                                echo form_close();
-                            }
-                            ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-6 col-xs-6" for="uname">Biaya Balik Nama:</label>
-                        <div class="control-label col-sm-3 col-xs-3 text-left">
-                            <?="Rp ". number_format($header->balik_nama ,0,',','.') ?>
-                            
-                        </div>
-                        <div class="col-sm-3 col-xs-3">
-                            <?php
-                            if($header->bn_kd_nota != null){
-                                $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_cicilan', 'target' => '_blank');
-                                echo form_open('Mid/print_nota_again', $attributes); 
-                                echo "
-                                <div class='col-sm-12 col-xs-12 text-center'>
-                                <input type='hidden' value='$header->bn_kd_nota' name='kd_nota'>
                                 <button type='submit' id='edit' name='edit' class='btn btn-success'>Print</button>
                                 </div>
                                 ";
@@ -238,7 +227,62 @@
                         </div>
                     </div>
                 </div>
-                
+                    <div class="header-div col-sm-11 col-sm-offset-1 mt" id="div-balik">
+                        <span class="fa fa-info"></span><span>BALIK NAMA</span>
+                    </div>
+                    <div class="col-sm-11 col-sm-offset-1 form-horizontal white-bg" id="div-balik-info" style="display:none;">
+                        <?php
+                        $ctr = 0;
+                        $total = 0;
+                        $jatuh_tempo_bn = "";
+                        foreach ($detail_baliknama as $item) {
+                            $ctr++; $total += $item->bayar; $jatuh_tempo_bn = $item->jatuh_tempo;
+                            ?>
+                            <div class="form-group">
+                                <label class="control-label col-sm-6 col-xs-6" for="uname">Biaya Balik Nama ke-<?=$ctr?>:</label>
+                                <div class="control-label col-sm-6 col-xs-6 text-left"><?= "Rp " . number_format($item->bayar, 0, ',', '.') ?></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-6 col-xs-6" for="uname">Karyawan yang
+                                    Mengurus:</label>
+                                <div class="control-label col-sm-6 col-xs-6 text-left"><?= $item->nama ?></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-6 col-xs-6" for="uname">Tgl. Transaksi:</label>
+                                <div class="control-label col-sm-6 col-xs-6 text-left"><?= $item->tgl_trans ?></div>
+                            </div>
+                            <div class="col-sm-12 mb mt">
+
+                                <?php
+                                if ($header->bn_kd_nota != null) {
+                                    $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_cicilan', 'target' => '_blank');
+                                    echo form_open('Mid/print_nota_again', $attributes);
+                                    echo "
+                            <div class='col-sm-12 col-xs-12 text-left'>
+                            <input type='hidden' value='$item->kd_nota' name='kd_nota'>
+                            <button type='submit' id='edit' name='edit' class='btn btn-success center-block'>Print</button>
+                            </div>
+                            ";
+                                    echo form_close();
+                                }
+                                ?>
+                            </div>
+
+
+
+                            <?php
+                            echo "<div class='col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3 bb line'></div>";
+                        }
+                        ?>
+                        <div class='form-group'>
+                            <label class="control-label col-sm-6 col-xs-6" for="uname">Total:</label>
+                            <div class="control-label col-sm-6 col-xs-6 text-left"><?="Rp ".  number_format($total,0,",",".") ?></div>
+                        </div>
+                        <div class='form-group'>
+                            <label class="control-label col-sm-6 col-xs-6" for="uname">Sisa:</label>
+                            <div class="control-label col-sm-6 col-xs-6 text-left"><?="Rp ".  number_format($header->biayabaliknama - $total,0,",",".") ?></div>
+                        </div>
+                    </div>
                 <?php
                 }
                 
@@ -426,7 +470,30 @@
                     </div>
                     
                 <?php
-                    } 
+                    }
+                     if($show_header == "") {
+                         if (sizeof($detail_catatan) > 0) {
+                             ?>
+                             <div class="header-div col-sm-11 col-sm-offset-1 mt" id="div-catatan">
+                                 <span class="fa fa-list"></span><span>CATATAN</span>
+                             </div>
+                             <div class="col-sm-11 col-sm-offset-1 form-horizontal white-bg" id="div-detail-catatan">
+                                 <div class="col-sm-12">
+                                     <?php
+                                     foreach ($detail_catatan as $det) {
+                                         echo "<div class='form-group'>";
+                                         echo "<div class='col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 bold'>" .  $det['tipe'] ." ke-". $det["urutan"] ." (Jatuh Tempo: " . $det["jatuh_tempo"] . ")</div>";
+                                         echo "<div class='col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1'> Tgl: " . $det['updated'] . "</div>";
+                                         echo "<div class='col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 mb'>" . $det['keterangan'] . "</div>";
+                                         echo "<div class='col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 bb line'></div>";
+                                         echo "</div>";
+                                     }
+                                     ?>
+                                 </div>
+                             </div>
+                             <?php
+                         }
+                     }
                     if($show_header == ""){
                 ?>
                     <div class="col-sm-11 col-sm-offset-1 white-bg mt" style="font-size:14pt;">
@@ -541,6 +608,29 @@
                             </div>
 
                         </div>
+                        <?php
+                        if($dt->format("Y-m-d") > date("Y-m-d",strtotime($jatuh_tempo))  && (($header->tipe_bayar == 1 || $header->tipe_bayar == 2))) {
+                            ?>
+                            <div class='col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 bb mt mb'></div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-6">Catatan:</label>
+                                <div class="col-sm-6 ">
+                                    <?php echo form_input(array('name' => 'catatan', 'id' => 'catatan', 'class' => 'form-control', 'placeholder' => 'Catatan Jatuh Tempo'), $catatan); ?>
+                                    <?php echo form_error('catatan'); ?>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-sm-12 mb">
+                                    <button type="submit" name="submit" id="submit_catatan" value="catatan"
+                                            class="btn btn-success center-block" style="margin-top:20px;">Simpan Catatan
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <?php
+                        }
+                        ?>
                     </div>
                     
                 </div>
@@ -702,31 +792,48 @@
                         $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_balik_nama');
                         echo form_open('Transaksiadmin2/balik_nama', $attributes); 
                 ?>
-                <div class="header-div col-sm-11 col-sm-offset-1 header-div-green ">
-                    <span class="fa fa-usd"></span><span>BIAYA BALIK NAMA</span>
-                </div>
-                <div class="col-sm-11 col-sm-offset-1 form-horizontal white-bg mb"> 
-                    <input type="hidden" name="kd_trans" value="<?=$kd_trans?>"/>
-                    <input type="hidden" name="nama" value="<?=$header->nama?>"/>
-                    <input type="hidden" name="tipe_bayar" value="<?=$header->tipe_bayar?>"/>
-                    <input type="hidden" name="nama_tanah" value="<?=$header->nama_blok. " " .$header->nomor_tanah?>"/>
-                    <div class="col-sm-12 form-horizontal"> 
-                        <div class="form-group">
-                            <label class="control-label col-sm-6">Biaya Balik Nama/Sertifikat:</label>
-                            <div class="col-sm-6 ">
-                                <?php echo form_input(array('name'=>'balik_nama', 'id'=>'balik_nama', 'class'=>'form-control', 'placeholder'=>'Biaya balik nama'), $balik_nama);?>
-                                <?php echo form_error('balik_nama'); ?>
+                        <div class="header-div col-sm-11 col-sm-offset-1 header-div-green ">
+                            <span class="fa fa-usd"></span><span>BIAYA BALIK NAMA</span>
+                        </div>
+                        <div class="col-sm-11 col-sm-offset-1 form-horizontal white-bg mb">
+                            <input type="hidden" name="kd_trans" value="<?=$kd_trans?>"/>
+                            <input type="hidden" name="nama" value="<?=$header->nama?>"/>
+                            <input type="hidden" name="tipe_bayar" value="<?=$header->tipe_bayar?>"/>
+                            <input type="hidden" name="nama_tanah" value="<?=$header->nama_blok. " " .$header->nomor_tanah?>"/>
+                            <input type="hidden" name="ctr" value="<?=count($detail_baliknama)+1?>"/>
+                            <div class="col-sm-12 form-horizontal">
+                                <?php
+                                $dt = new DateTime();
+                                $dt->setTimezone(new DateTimeZone('GMT+7'));
+
+                                if($dt->format("Y-m-d") > $jatuh_tempo_bn and $jatuh_tempo_bn != ''){
+                                    ?>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-6"></label>
+                                        <div class="col-sm-12">
+                                            <div class='alert alert-danger text-center'>Sudah Jatuh Tempo</div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                                <div class="form-group mt">
+                                    <label class="control-label col-sm-6">Cicilan Balik Nama/Sertifikat ke-<?=count($detail_baliknama)+1?>:</label>
+                                    <div class="col-sm-6 ">
+                                        <?php echo form_input(array('name'=>'balik_nama', 'id'=>'balik_nama', 'class'=>'form-control', 'placeholder'=>'Biaya balik nama'), $balik_nama);?>
+                                        <?php echo form_error('balik_nama'); ?>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button type="submit" name="submit" id="submit" value="bn" class="btn btn-success center-block" style="margin-top:20px;">Simpan Pembayaran</button>
+                                    </div>
+
+                                </div>
 
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <button type="submit" name="submit" id="submit" class="btn btn-success center-block" style="margin-top:20px;">Simpan Pembayaran</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
                 <?php
                         echo form_close();
                     }
@@ -837,6 +944,7 @@
         $("#div-detail-info").hide();
         $("#div-dp-info").hide();
         $("#div-cicilan-info").hide();
+        $("#div-detail-catatan").hide();
         
         $("#div-header").click(function(){
             $("#div-header-info").slideToggle();
@@ -852,6 +960,12 @@
         });
         $("#cari_nota").click(function(){
             $("#div_cari").slideToggle();
+        });
+        $("#div-balik").click(function(){
+            $("#div-balik-info").slideToggle();
+        });
+        $("#div-catatan").click(function() {
+            $("#div-detail-catatan").slideToggle();
         });
         $("#cbagen").ready(getrole);
         $("#cbagen").change(getrole);

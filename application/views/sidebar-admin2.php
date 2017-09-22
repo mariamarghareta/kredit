@@ -72,6 +72,18 @@
                               <span>Pengeluaran</span>
                           </a>
                       </li>
+                      <li class="" id="menu_dpnunggak">
+                          <a href="<?= base_url();?><?= index_page();?>/Laporandpnunggak" id="">
+                              <i class="fa fa-book"></i>
+                              <span>DP Jatuh Tempo</span>
+                          </a>
+                      </li>
+                      <li class="" id="menu_cicilannunggak">
+                          <a href="<?= base_url();?><?= index_page();?>/Laporancicilannunggak" id="">
+                              <i class="fa fa-book"></i>
+                              <span>Cicilan Jatuh Tempo</span>
+                          </a>
+                      </li>
                   </ul>
               </li>
           </ul>
