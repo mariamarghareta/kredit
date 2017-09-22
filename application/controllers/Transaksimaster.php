@@ -20,6 +20,7 @@ class Transaksimaster extends CI_Controller {
         $this->load->model('Cash');
         $this->load->model('Dp');
         $this->load->model('Cicilan');
+        $this->load->model('Catatan');
     }
     private $data;
 	public function index()
@@ -70,6 +71,8 @@ class Transaksimaster extends CI_Controller {
         $this->data['error_transaksi'] = "";
         $this->data['diskon1'] = "";
         $this->data['besar_baliknama'] = "";
+        $this->data['catatan'] = "";
+        $this->data['detail_catatan'] = "";
 
     }
     public function check_role(){
@@ -171,7 +174,8 @@ class Transaksimaster extends CI_Controller {
             $this->data['data_bayar'] = $data_bayar;
             $this->data['subdetail'] = $this->Cicilan->cek_detail_transaksi($this->data['header']->kd_trans);
             $this->data['detail_baliknama'] = $this->Baliknama->cek_detail_transaksi($this->data['header']->kd_trans);
-            
+            $this->data['detail_catatan'] = $this->Catatan->cek_detail_transaksi($this->data['header']->kd_trans);
+
             if($data_bayar->cicilan > 0){
                 $this->data['show_cicilan']="";
             } else{
@@ -266,44 +270,60 @@ class Transaksimaster extends CI_Controller {
         $this->clear();
         
         $this->form_validation->set_rules('bayar', 'Pembayaran', 'required', array('required' => 'Harus diisi'));
-        $this->form_validation->set_error_delimiters('<div class="error">', '</div>'); 
-        
-        if($this->form_validation->run() == TRUE){
-            if($this->input->post('tipe_bayar') == 2 ){
-                $array = array(
-                    'kd_trans' => $this->input->post('kd_trans'),
-                    'nama' => $this->input->post('nama'),
-                    'tipe_bayar' => 3,
-                    'nama_tanah' => $this->input->post('nama_tanah'),
-                    'bayar' => $this->input->post('bayar'),
-                    'ctr' => $this->input->post('ctr'),
-                    'denda' => $this->input->post('denda'),
-                    'angsuran' => $this->input->post('angsuran')
-                );
-            } else if($this->input->post('tipe_bayar') == 0){
-                $array = array(
-                    'kd_trans' => $this->input->post('kd_trans'),
-                    'nama' => $this->input->post('nama'),
-                    'tipe_bayar' => 0,
-                    'nama_tanah' => $this->input->post('nama_tanah'),
-                    'bayar' => $this->input->post('bayar'),
-                    'ctr' => $this->input->post('ctr'),
-                    'denda' => $this->input->post('denda'),
-                    'angsuran' => $this->input->post('angsuran')
-                );
+        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+
+        if(($this->input->post('submit') == "catatan")){
+            if(($this->input->post('tipe_bayar') == 1 && $this->input->post('angsuran') != 1) || ($this->input->post('tipe_bayar') == 2 && $this->input->post('angsuran') != 1)){
+                $kd_nota = $this->Dp->get_last_code($this->input->post('kd_trans'));
+                $tipe = "DP";
+            }else if(($this->input->post('tipe_bayar') == 1 && $this->input->post('angsuran') == 1) || ($this->input->post('tipe_bayar') == 2 && $this->input->post('angsuran') == 1)){
+                $kd_nota = $this->Cicilan->get_last_code($this->input->post('kd_trans'));
+                if(sizeof($kd_nota) <= 0){
+                    $kd_nota = $this->Dp->get_last_code($this->input->post('kd_trans'));
+                }
+                $tipe = "Cicilan";
             }
-            $this->session->set_tempdata($array, NULL, 600);
-            redirect('Transaksibayar2');
-        }else{
+
+            $hasil = $this->Catatan->insert( $this->input->post('kd_trans'),  $kd_nota->kd_nota, $this->input->post('catatan'), $this->input->post('ctr'), $tipe);
             $this->cek_nota();
-            /*
-            $this->data['kd_trans']= $this->input->post('kd_trans');
-            $this->data['bayar']= $this->input->post('bayar');
-            $this->data['nama']= $this->input->post('nama');
-            $this->data['tipe_bayar']= $this->input->post('tipe_bayar');
-            $this->data['nama_tanah']= $this->input->post('nama_tanah');
-            $this->show();
-            */
+        }else {
+            if ($this->form_validation->run() == TRUE) {
+                if ($this->input->post('tipe_bayar') == 2) {
+                    $array = array(
+                        'kd_trans' => $this->input->post('kd_trans'),
+                        'nama' => $this->input->post('nama'),
+                        'tipe_bayar' => 3,
+                        'nama_tanah' => $this->input->post('nama_tanah'),
+                        'bayar' => $this->input->post('bayar'),
+                        'ctr' => $this->input->post('ctr'),
+                        'denda' => $this->input->post('denda'),
+                        'angsuran' => $this->input->post('angsuran')
+                    );
+                } else if ($this->input->post('tipe_bayar') == 0) {
+                    $array = array(
+                        'kd_trans' => $this->input->post('kd_trans'),
+                        'nama' => $this->input->post('nama'),
+                        'tipe_bayar' => 0,
+                        'nama_tanah' => $this->input->post('nama_tanah'),
+                        'bayar' => $this->input->post('bayar'),
+                        'ctr' => $this->input->post('ctr'),
+                        'denda' => $this->input->post('denda'),
+                        'angsuran' => $this->input->post('angsuran')
+                    );
+                }
+                $this->session->set_tempdata($array, NULL, 600);
+                redirect('Transaksibayar2');
+            } else {
+                $this->cek_nota();
+                /*
+                $this->data['kd_trans']= $this->input->post('kd_trans');
+                $this->data['bayar']= $this->input->post('bayar');
+                $this->data['nama']= $this->input->post('nama');
+                $this->data['tipe_bayar']= $this->input->post('tipe_bayar');
+                $this->data['nama_tanah']= $this->input->post('nama_tanah');
+                $this->show();
+                */
+            }
         }
     }
     public function urus_cash(){
@@ -400,18 +420,23 @@ class Transaksimaster extends CI_Controller {
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>'); 
         
         if($this->form_validation->run() == TRUE){
-            
-            $array = array(
-                'kd_trans' => $this->input->post('kd_trans'),
-                'nama' => $this->input->post('nama'),
-                'tipe_bayar' => 5,
-                'nama_tanah' => $this->input->post('nama_tanah'),
-                'balik_nama' => $this->input->post('balik_nama'),
-                'ctr' => $this->input->post('ctr')
-            );
-          
-            $this->session->set_tempdata($array, NULL, 600);
-            redirect('Transaksibayar2');
+            if(($this->input->post('submit') == "catatan")){
+                $kd_nota = $this->Baliknama->get_last_code($this->input->post('kd_trans'));
+                $hasil = $this->Catatan->insert( $this->input->post('kd_trans'),  $kd_nota->kd_nota, $this->input->post('catatan'));
+                $this->cek_nota();
+            }else{
+                $array = array(
+                    'kd_trans' => $this->input->post('kd_trans'),
+                    'nama' => $this->input->post('nama'),
+                    'tipe_bayar' => 5,
+                    'nama_tanah' => $this->input->post('nama_tanah'),
+                    'balik_nama' => $this->input->post('balik_nama'),
+                    'ctr' => $this->input->post('ctr')
+                );
+
+                $this->session->set_tempdata($array, NULL, 600);
+                redirect('Transaksibayar2');
+            }
         }
     }
     public function search_kdtrans(){
@@ -474,7 +499,8 @@ class Transaksimaster extends CI_Controller {
         $this->data['tgl_bayar'] = $this->input->post('tgl_bayar');
         $this->data['kar_jual'] = $this->input->post('lbagen');
         $this->data['bonus_agen'] = $this->input->post('bonus_agen');
-        
+        $this->data['is_transfer'] = $this->input->post('is_transfer');
+
         
         if($this->input->post('kembali')==TRUE){
             $array = array(
@@ -485,7 +511,7 @@ class Transaksimaster extends CI_Controller {
         } else {
             $this->data['ppjb'] = str_replace(".", "", $this->data['ppjb']);
             $this->data['bonus_agen'] = str_replace(".", "", $this->data['bonus_agen']);
-            $hasil = $this->Ppjb->update_ppjb($this->data['kd_nota'], $this->data['ppjb'], $this->data['tgl_bayar'], $this->data['kar_jual'], $this->data['bonus_agen']);
+            $hasil = $this->Ppjb->update_ppjb($this->data['kd_nota'], $this->data['ppjb'], $this->data['tgl_bayar'], $this->data['kar_jual'], $this->data['bonus_agen'], $this->data['is_transfer']);
             if($hasil == 1){
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-success sldown text-center' style='display:none;'>Update Berhasil</div>";
             }else{

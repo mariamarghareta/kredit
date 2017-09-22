@@ -101,7 +101,12 @@
                                 <?=$nm_agen?>
                             </div>
                         </div>
-                      
+                        <div class="form-group">
+                            <label class="control-label col-sm-6">Melalui Transfer:</label>
+                            <div class="control-label col-sm-6 text-left">
+                                <?php echo form_checkbox(array('id'=>'is_transfer', 'name' => 'is_transfer', 'value' => 1));?>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-12 text-center mt">
                                 <button type="submit" name="submit" id="submit" class="btn btn-success " value="submit">Cetak Nota</button>

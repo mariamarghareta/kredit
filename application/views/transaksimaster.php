@@ -141,6 +141,10 @@
                         <div class="control-label col-sm-6 text-left col-xs-6"><?=$header->nama?></div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-sm-6 col-xs-6" for="uname">Nama Agen:</label>
+                        <div class="control-label col-sm-6 text-left col-xs-6"><?=$header->nama_agen?></div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-sm-6 col-xs-6" for="uname">Tanah:</label>
                         <div class="control-label col-sm-6 text-left col-xs-6"><?=$header->nama_blok. " " .$header->nomor_tanah?></div>
                     </div>
@@ -208,9 +212,9 @@
                     <?php
                         $ctr = 0;
                         $total = 0;
-                        $jatuh_tempo = "";
+                        $jatuh_tempo_bn = "";
                         foreach ($detail_baliknama as $item) {
-                            $ctr++; $total += $item->bayar; $jatuh_tempo = $item->jatuh_tempo;
+                            $ctr++; $total += $item->bayar; $jatuh_tempo_bn = $item->jatuh_tempo;
                             ?>
                             <div class="form-group">
                                 <label class="control-label col-sm-6 col-xs-6" for="uname">Biaya Balik Nama ke-<?=$ctr?>:</label>
@@ -561,7 +565,30 @@
                     </div>
                     
                 <?php
-                    } 
+                    }
+                     if($show_header == "") {
+                         if (sizeof($detail_catatan) > 0) {
+                             ?>
+                             <div class="header-div col-sm-11 col-sm-offset-1 mt" id="div-catatan">
+                                 <span class="fa fa-list"></span><span>CATATAN</span>
+                             </div>
+                             <div class="col-sm-11 col-sm-offset-1 form-horizontal white-bg" id="div-detail-catatan">
+                                 <div class="col-sm-12">
+                                     <?php
+                                     foreach ($detail_catatan as $det) {
+                                         echo "<div class='form-group'>";
+                                         echo "<div class='col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 bold'>" .  $det['tipe'] ." ke-". $det["urutan"] ." (Jatuh Tempo: " . $det["jatuh_tempo"] . ")</div>";
+                                         echo "<div class='col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1'> Tgl: " . $det['updated'] . "</div>";
+                                         echo "<div class='col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 mb'>" . $det['keterangan'] . "</div>";
+                                         echo "<div class='col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 bb line'></div>";
+                                         echo "</div>";
+                                     }
+                                     ?>
+                                 </div>
+                             </div>
+                             <?php
+                         }
+                     }
                     if($show_header == ""){
                 ?>
                     <div class="col-sm-11 col-sm-offset-1 white-bg mt text-center" style="font-size:14pt;">
@@ -612,7 +639,6 @@
                         <?php
                             $dt = new DateTime();
                             $dt->setTimezone(new DateTimeZone('GMT+7'));
-                            
                             if($dt->format("Y-m-d") > date("Y-m-d",strtotime($jatuh_tempo))  && (($header->tipe_bayar == 1 && $angsuran == 1) || ($header->tipe_bayar == 2 && $angsuran == 1))){
                         ?>
                         <div class="form-group">
@@ -668,10 +694,34 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12" style="margin-top:10px;">
-                                <button type="submit" name="submit" id="submit" class="btn btn-success center-block">Simpan Pembayaran</button>
+                                <button type="submit" name="submit" id="submit" value="submit" class="btn btn-success center-block">Simpan Pembayaran</button>
                             </div>
 
                         </div>
+                        <?php
+                            if($dt->format("Y-m-d") > date("Y-m-d",strtotime($jatuh_tempo))  && (($header->tipe_bayar == 1 || $header->tipe_bayar == 2))) {
+                                ?>
+                                <div class='col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 bb mt mb'></div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-6">Catatan:</label>
+                                    <div class="col-sm-6 ">
+                                        <?php echo form_input(array('name' => 'catatan', 'id' => 'catatan', 'class' => 'form-control', 'placeholder' => 'Catatan Jatuh Tempo'), $catatan); ?>
+                                        <?php echo form_error('catatan'); ?>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="col-sm-12 mb">
+                                        <button type="submit" name="submit" id="submit_catatan" value="catatan"
+                                                class="btn btn-success center-block" style="margin-top:20px;">Simpan Catatan
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                <?php
+                            }
+                        ?>
+
                     </div>
                     
                 </div>
@@ -827,12 +877,12 @@
                     </div>
                 </div>
                 
-                <?php 
+                <?php
                     }
                     if($show_balik == ""){
-                    
+
                         $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_balik_nama');
-                        echo form_open('Transaksimaster/balik_nama', $attributes); 
+                        echo form_open('Transaksimaster/balik_nama', $attributes);
                 ?>
                 <div class="header-div col-sm-11 col-sm-offset-1 header-div-green ">
                     <span class="fa fa-usd"></span><span>BIAYA BALIK NAMA</span>
@@ -848,7 +898,7 @@
                         $dt = new DateTime();
                         $dt->setTimezone(new DateTimeZone('GMT+7'));
 
-                        if($dt->format("Y-m-d") > $jatuh_tempo){
+                        if($dt->format("Y-m-d") > $jatuh_tempo_bn and $jatuh_tempo_bn != ''){
                             ?>
                             <div class="form-group">
                                 <label class="control-label col-sm-6"></label>
@@ -859,7 +909,7 @@
                             <?php
                         }
                         ?>
-                        <div class="form-group">
+                        <div class="form-group mt">
                             <label class="control-label col-sm-6">Cicilan Balik Nama/Sertifikat ke-<?=count($detail_baliknama)+1?>:</label>
                             <div class="col-sm-6 ">
                                 <?php echo form_input(array('name'=>'balik_nama', 'id'=>'balik_nama', 'class'=>'form-control', 'placeholder'=>'Biaya balik nama'), $balik_nama);?>
@@ -869,7 +919,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <button type="submit" name="submit" id="submit" class="btn btn-success center-block" style="margin-top:20px;">Simpan Pembayaran</button>
+                                <button type="submit" name="submit" id="submit" value="bn" class="btn btn-success center-block" style="margin-top:20px;">Simpan Pembayaran</button>
                             </div>
 
                         </div>
@@ -1024,7 +1074,8 @@
         $("#div-detail-info").hide();
         $("#div-dp-info").hide();
         $("#div-cicilan-info").hide();
-        
+        $("#div-detail-catatan").hide();
+
         $("#div-header").click(function(){
             $("#div-header-info").slideToggle();
         });
@@ -1045,6 +1096,9 @@
         });
         $("#div-balik").click(function(){
             $("#div-balik-info").slideToggle();
+        });
+        $("#div-catatan").click(function(){
+            $("#div-detail-catatan").slideToggle();
         });
         $("#cbagen").ready(getrole);
         $("#cbagen").change(getrole);

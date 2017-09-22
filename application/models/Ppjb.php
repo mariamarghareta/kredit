@@ -9,7 +9,7 @@ class Ppjb extends CI_Model {
     }
 
     public function get_ppjb($kd_trans){
-        $query = $this->db->select('p.kd_nota, p.kd_trans, p.bayar, DATE_FORMAT(p.tgl_bayar, "%d-%m-%Y") as tgl_bayar, p.kar_jual, p.bonus_agen, p.kd_kar, p.updated, p.deleted , kar.nama as ppjb_kar_nama, kar1.nama as ppjb_agen')
+        $query = $this->db->select('p.kd_nota, p.kd_trans, p.bayar, DATE_FORMAT(p.tgl_bayar, "%d-%m-%Y") as tgl_bayar, p.kar_jual, p.bonus_agen, p.kd_kar, p.updated, p.deleted , kar.nama as ppjb_kar_nama, kar1.nama as ppjb_agen, p.is_transfer')
             ->from('ppjb p')
             ->join('transaksi t', 't.kd_trans = p.kd_trans')
             ->join('karyawan kar', 'kar.kd_kar = p.kd_kar')
@@ -19,13 +19,15 @@ class Ppjb extends CI_Model {
             ->row();
         return $query;
     } 
-    public function insert($kd_trans, $bayar, $tgl_bayar, $kar_jual, $kd_kar){
+    public function insert($kd_trans, $bayar, $tgl_bayar, $kar_jual, $kd_kar, $is_transfer){
         $array = array(
             'kd_trans' => $kd_trans,
             'bayar' => $bayar,
             'tgl_bayar' => date('Y-m-d',strtotime($tgl_bayar)),
             'kar_jual' => $kar_jual,
-            'kd_kar' => $kd_kar
+            'kd_kar' => $kd_kar,
+            'is_transfer' => $is_transfer,
+            'bonus_agen' => 0
         );
         $query = $this->db->insert('ppjb', $array);
         if($query == 1){
@@ -47,12 +49,13 @@ class Ppjb extends CI_Model {
             ->row();
         return $query;
     }
-    public function update_ppjb($kd_nota, $bayar, $tgl_bayar, $kar_jual, $bonus_agen){
+    public function update_ppjb($kd_nota, $bayar, $tgl_bayar, $kar_jual, $bonus_agen, $is_transfer){
         $array = array(
             'bayar' => $bayar,
             'tgl_bayar' => date('Y-m-d',strtotime($tgl_bayar)),
             'kar_jual' => $kar_jual,
-            'bonus_agen' => $bonus_agen
+            'bonus_agen' => $bonus_agen,
+            'is_transfer' => $is_transfer
         );
         $this->db->where('kd_nota', $kd_nota);
         return $this->db->update('ppjb', $array);

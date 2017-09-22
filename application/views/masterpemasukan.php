@@ -70,6 +70,18 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-sm-4 col-xs-4" >Melalui Transfer:</label>
+                            <div class="col-sm-3 ">
+                                <?php
+                                if ($is_transfer == 1){
+                                    echo form_checkbox(array('id'=>'is_transfer', 'name' => 'is_transfer', 'value' => "1", 'checked' => "checked"));
+                                }else{
+                                    echo form_checkbox(array('id'=>'is_transfer', 'name' => 'is_transfer', 'value' => "1"));
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-sm-4">Tanggal Pemasukan:</label>
                             <div class="col-sm-8">
                               <input class="form-control datepicker"  data-date-format="dd-mm-yyyy" type="text" name="tanggal" style="width:195px" placeholder="dd-mm-yyyy" autocomplete="off" value="<?=$tanggal?>" >

@@ -45,6 +45,7 @@ class Masterpemasukan extends CI_Controller {
         $this->data['tanggal']="";
         $this->data['pj']="";
         $this->data['show_update']="none";
+        $this->data['is_transfer']="";
     }
     public function show(){
         $this->load->view('masterpemasukan', $this->data);
@@ -57,14 +58,15 @@ class Masterpemasukan extends CI_Controller {
         $this->data['tanggal'] = $this->input->post('tanggal');
         $this->data['pj'] = $this->input->post('pj');
         $this->data['show_update']="none";
-        
+        $this->data['is_transfer']=$this->input->post('is_transfer');
+
         $this->form_validation->set_rules('uang', '', 'required', array('required' => 'Harus diisi'));
         $this->form_validation->set_rules('ket', '', 'required', array('required' => 'Harus diisi'));
         $this->form_validation->set_rules('pj', '', 'required', array('required' => 'Harus diisi'));
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>'); 
         
         if ($this->form_validation->run() == TRUE){
-            $hasil = $this->Pemasukan->insert(str_replace(".", "", $this->data['uang']),$this->data['tanggal'], $_SESSION['kd_kar'], $this->data['ket'], $this->data['pj']);
+            $hasil = $this->Pemasukan->insert(str_replace(".", "", $this->data['uang']),$this->data['tanggal'], $_SESSION['kd_kar'], $this->data['ket'], $this->data['pj'], $this->data['is_transfer']);
             if($hasil == 1){
                 $this->clear();
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-success sldown' style='display:none;'>Pemasukan Berhasil ditambahkan</div>";

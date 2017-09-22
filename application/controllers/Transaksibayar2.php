@@ -319,7 +319,7 @@ class Transaksibayar2 extends CI_Controller {
                 }
             }else if($this->form_validation->run() == ""){
                 if($this->data['tipe_bayar']== 6){
-                    $hasil = $this->Ppjb->insert($this->data['kd_trans'], $this->data['ppjb'], $this->data['tgl_bayar'], $this->data['kd_agen'], $_SESSION['kd_kar']);
+                    $hasil = $this->Ppjb->insert($this->data['kd_trans'], $this->data['ppjb'], $this->data['tgl_bayar'], $this->data['kd_agen'], $_SESSION['kd_kar'], $this->input->post('is_transfer'));
                     if($hasil != null){
                         $this->destroy_data_session();
                         $this->data['kd_fin']= $hasil->kd_nota;

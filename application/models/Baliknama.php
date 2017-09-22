@@ -67,6 +67,15 @@ class Baliknama extends CI_Model {
             ->get();
         return $query->result();
     }
+    public function get_last_code($kd_trans){
+        $query = $this->db->select('kd_nota',1)
+            ->from('balik_nama')
+            ->where('kd_trans', $kd_trans)
+            ->order_by("updated", "desc")
+            ->get()
+            ->row();
+        return $query;
+    }
 
 }
 ?>

@@ -70,6 +70,7 @@ class Transaksiadmin2_2 extends CI_Controller {
         $this->data['ppjb'] = 0;
         $this->data['tgl_bayar'] = "";
         $this->data['msg'] = "";
+        $this->data['is_transfer'] = "";
     }
     public function check_role(){
         if(isset($_SESSION['kd_role'])){
@@ -150,7 +151,7 @@ class Transaksiadmin2_2 extends CI_Controller {
             }
         }else{
             if ($this->form_validation->run() != FALSE){
-                $hasil = $this->Ppjb->insert($this->data['kd_trans'], $this->data['ppjb'], $this->data['tgl_bayar'], $this->data['kd_agen'], $_SESSION['kd_kar']);
+                $hasil = $this->Ppjb->insert($this->data['kd_trans'], $this->data['ppjb'], $this->data['tgl_bayar'], $this->data['kd_agen'], $_SESSION['kd_kar'], $this->data['is_transfer']);
                 if($hasil != null){
                     $this->destroy_data_session();
                     $this->data['kd_fin']= $hasil->kd_nota;

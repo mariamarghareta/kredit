@@ -22,8 +22,8 @@ class Laporanpenjualan extends CI_Controller {
         $date = new DateTime();
         $date->setTimezone(new DateTimeZone('GMT+7'));
                                     
-        $this->data['arr'] = $this->Pendapatan->detail_gabungan("all", "" , "bulan",$date->format("m") ."-".$date->format("Y"),"", "kav_all","");
-        $this->get_subdetail("all", "" , "bulan",$date->format("m") ."-".$date->format("Y"),"","kav_all", "");
+        //$this->data['arr'] = $this->Pendapatan->detail_gabungan("all", "" , "bulan",$date->format("m") ."-".$date->format("Y"),"", "kav_all","");
+        //$this->get_subdetail("all", "" , "bulan",$date->format("m") ."-".$date->format("Y"),"","kav_all", "");
         //$this->show_data($hasil);
         
         $this->show();

@@ -273,13 +273,14 @@ class Transaksi extends CI_Model {
     }
     public function cek_header_transaksi($kd_trans){
         
-        $query = $this->db->select('t.*, c.*, b.nama_blok, b.kd_blok , ta.nomor_tanah, ta.kd_tanah , ifnull(bn.bayar,0) as balik_nama, bn.kd_nota as bn_kd_nota, kar.nama as bn_kar_nama, book.bayar as bayar_book, book.kd_nota as book_kd_nota, t.baliknama as cicilan_baliknama, t.biayabaliknama as besar_baliknama')
+        $query = $this->db->select('t.*, c.*, b.nama_blok, b.kd_blok , ta.nomor_tanah, ta.kd_tanah , ifnull(bn.bayar,0) as balik_nama, bn.kd_nota as bn_kd_nota, kar.nama as bn_kar_nama, book.bayar as bayar_book, book.kd_nota as book_kd_nota, t.baliknama as cicilan_baliknama, t.biayabaliknama as besar_baliknama, agen.nama as nama_agen')
             ->from('transaksi t')
             ->join('customer c', 'c.kd_cust = t.kd_cust')
             ->join('tanah ta', 'ta.kd_tanah = t.kd_tanah')
             ->join('blok b', 'b.kd_blok = ta.kd_blok')
             ->join('balik_nama bn', 't.kd_trans = bn.kd_trans', 'left')
             ->join('karyawan kar','kar.kd_kar = bn.kd_kar', 'left')
+            ->join('karyawan agen','agen.kd_kar = t.kd_agen', 'left')
             ->join('booking book','book.kd_trans = t.kd_trans', 'left')
             ->where('t.kd_trans', $kd_trans)
             ->where('t.deleted', 0)

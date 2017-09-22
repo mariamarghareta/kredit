@@ -24,8 +24,8 @@ class Pendapatan extends CI_Model {
         }
         if($kav == "kavling"){
             if($wc != ""){$wc.=" and ";}
-            $fr = ", transaksi t, tanah ta, blok bl " ;
-            $wc .= " g.kd_trans = t.kd_trans and t.kd_tanah = ta.kd_tanah and ta.kd_blok=bl.kd_blok and bl.kd_blok = '$kd_kav' ";
+            $fr = " left join transaksi t on t.kd_trans = g.kd_trans left join tanah ta on t.kd_tanah = ta.kd_tanah left join blok bl on ta.kd_blok = bl.kd_blok " ;
+            $wc .= " bl.kd_blok = '$kd_kav' ";
         }
         if($tipe == "pilih"){
             $temp = explode(";", $pilih);
@@ -75,7 +75,7 @@ class Pendapatan extends CI_Model {
         
         
         if($wc != ""){$wc = " where " . $wc;}
-        $query= $this->db->query("select g.kd_trans, sum(g.bayar) as bayar, g.keterangan from pendapatan g $fr $wc group by g.kd_trans order by g.kd_trans desc limit 50" );
+        $query= $this->db->query("select g.kd_trans, sum(g.bayar) as bayar, g.keterangan, g.is_transfer, case when k.nama is not null then k.nama else '-' end as nama_karyawan from pendapatan g left join transaksi tr on tr.kd_trans = g.kd_trans left join karyawan k on k.kd_kar = tr.kd_agen $fr $wc group by g.kd_trans order by g.kd_trans desc limit 70" );
         return $query->result_array();
     }  
     public function subdetail_gabungan($tipe, $pilih, $range, $par1, $par2, $kode, $kav, $kd_kav){
@@ -137,7 +137,7 @@ class Pendapatan extends CI_Model {
         
         
         if($wc != ""){$wc = " and " . $wc;}
-        $query= $this->db->query("select DATE_FORMAT(g.tgl_trans, '%d-%m-%Y') as tgl_trans, g.kd_trans, g.kd_nota, g.bayar, g.keterangan
+        $query= $this->db->query("select DATE_FORMAT(g.tgl_trans, '%d-%m-%Y') as tgl_trans, g.kd_trans, g.kd_nota, g.bayar, g.keterangan, g.is_transfer
             from pendapatan g $fr 
             where g.kd_trans = '$kode' $wc order by g.tgl_trans" );
         return $query->result_array();

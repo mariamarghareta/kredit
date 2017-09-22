@@ -198,7 +198,12 @@ body{
     padding: 20px 20px;
     
 }
-
+.bb{
+    border-bottom: 1px solid #c1c1c1;
+}
+.line{
+    margin-bottom: 15px;
+}
 .mt-big{
     margin-top: 50px;
 }
@@ -242,13 +247,6 @@ body{
 }
 span.fa{
     padding-right: 10px;
-}
-.bb{
-    border-bottom: 1px solid #c1c1c1;
-}
-.line{
-    
-    margin-bottom: 15px;
 }
 .blank{
     margin-top: 10px;

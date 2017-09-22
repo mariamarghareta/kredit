@@ -115,6 +115,18 @@
                     </div>
                     
                 </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-6 col-xs-6" >Melalui Transfer:</label>
+                    <div class="col-sm-5 ">
+                        <?php
+                        if ($data_ppjb->is_transfer == 1){
+                            echo form_checkbox(array('id'=>'is_transfer', 'name' => 'is_transfer', 'value' => "1", 'checked' => "checked"));
+                        }else{
+                            echo form_checkbox(array('id'=>'is_transfer', 'name' => 'is_transfer', 'value' => "1"));
+                        }
+                        ?>
+                    </div>
+                </div>
                 <div class="col-sm-12 text-center mt">
                     <button type="submit" value="update" class="btn btn-success" name="btn-tog-cari" id="btn-up">Update</button>
                     <button type="submit" value="kembali" id="kembali" name="kembali" class="btn btn-success" name="btnkembali" id="btnkembali">Back</button>

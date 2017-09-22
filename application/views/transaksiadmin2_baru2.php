@@ -109,16 +109,18 @@
 
                         </div>
                     </div>
+                    <!--
                     <div class="form-group">
                         <label class="control-label col-sm-6">Tanggal Jatuh Tempo Balik Nama Berikutnya:</label>
                         <div class="col-sm-6">
                             <div class="date" data-date="" data-date-format="dd-mm-yyyy" data-link-field="dtp_input2" data-link-format="dd-mm-yyyy">
                                 <input class="form-control datepicker"  data-date-format="dd-mm-yyyy" type="text" name="jatuh_tempo_bn" style="width:150px" placeholder="dd-mm-yyyy" autocomplete="off" value="<?=$jatuh_tempo_bn?>" >
-                                <?php echo form_error('jatuh_tempo_bn'); ?>
+                                <?php /*echo  form_error('jatuh_tempo_bn');*/ ?>
                             </div>
 
                         </div>
                     </div>
+                    -->
                     <div class="form-group">
                         <label class="control-label col-sm-6">Melalui Transfer:</label>
                         <div class="control-label col-sm-6 text-left">
