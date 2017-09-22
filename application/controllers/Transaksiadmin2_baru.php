@@ -44,6 +44,7 @@ class Transaksiadmin2_baru extends CI_Controller {
             $this->data['tb_cidiskon']=$_SESSION['tb_cidiskon'];
             $this->data['tb_ciangsuran']=$_SESSION['tb_ciangsuran'];
             $this->data['tb_bulanbaliknama']=$_SESSION['tb_bulanbaliknama'];
+            $this->data['tb_biayabaliknama']=$_SESSION['tb_biayabaliknama'];
         }
     }
     public function show(){

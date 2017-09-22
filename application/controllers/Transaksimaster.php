@@ -351,16 +351,6 @@ class Transaksimaster extends CI_Controller {
             );
             $this->session->set_tempdata($array, NULL, 600);
             redirect('Transaksibayar2');
-            /*
-            $hasil = $this->Transaksi->update_booking($this->data['kd_trans'], $this->data['dp'],$this->data['cicilan_dp'], $this->data['angsuran'],$this->data['diskon']);
-            if($hasil == 1){
-                $this->data['kar_input']=$_SESSION['kd_kar'];
-                $this->data['bayar_final']=this->input->post('dp1');
-                $this->data['kd_trans']=$this->input->post('kd_trans');
-                $this->Dp->insert();
-                
-            }
-            */
         } else{
             $this->cek_nota();
         }

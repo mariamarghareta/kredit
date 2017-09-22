@@ -226,8 +226,7 @@
                                 <div class="control-label col-sm-6 col-xs-6 text-left"><?= $item->nama ?></div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-6 col-xs-6" for="uname">Karyawan yang
-                                    Mengurus:</label>
+                                <label class="control-label col-sm-6 col-xs-6" for="uname">Tgl Transaksi:</label>
                                 <div class="control-label col-sm-6 col-xs-6 text-left"><?= $item->tgl_trans ?></div>
                             </div>
                             <div class="col-sm-12 mb mt">
