@@ -13,7 +13,7 @@ class Laporancicilannunggak extends CI_Controller {
         $this->load->model('Timeout');
         $this->load->model('Pendapatan');
         $this->load->model('Blok');
-        $this->load->model('DP');
+        $this->load->model('Dp');
         $this->load->model('Cicilan');
         $this->load->model('Catatan');
     }

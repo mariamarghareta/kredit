@@ -13,7 +13,7 @@ class Laporandpnunggak extends CI_Controller {
         $this->load->model('Timeout');
         $this->load->model('Pendapatan');
         $this->load->model('Blok');
-        $this->load->model('DP');
+        $this->load->model('Dp');
         $this->load->model('Catatan');
     }
     private $data;
@@ -70,7 +70,7 @@ class Laporandpnunggak extends CI_Controller {
         $this->data['select_kav'] = $this->input->post('select_kav');
         $this->data['bulan'] = $this->input->post('bulan');
         $this->data['tahun'] = $this->input->post('tahun');
-        $this->data['arr'] = $this->DP->get_jatuh_tempo($this->data['bulan'], $this->data['tahun'], $this->data['select_kav']);
+        $this->data['arr'] = $this->Dp->get_jatuh_tempo($this->data['bulan'], $this->data['tahun'], $this->data['select_kav']);
         $this->get_subdetail();
 
         $this->show();
@@ -90,7 +90,7 @@ class Laporandpnunggak extends CI_Controller {
         $this->data['select_kav'] = $this->input->post('select_kav');
         $this->data['bulan'] = $this->input->post('bulan');
         $this->data['tahun'] = $this->input->post('tahun');
-        $this->data['arr'] = $this->DP->get_jatuh_tempo($this->data['bulan'], $this->data['tahun'], $this->data['select_kav']);
+        $this->data['arr'] = $this->Dp->get_jatuh_tempo($this->data['bulan'], $this->data['tahun'], $this->data['select_kav']);
         $this->get_subdetail();
 
         $this->load->view('laporandpnunggakprint', $this->data);

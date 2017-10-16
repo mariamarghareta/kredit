@@ -146,6 +146,7 @@
                                 <th>Tgl. Jatuh Tempo</th>
                                 <th>Telp.</th>
                                 <th>Alamat</th>
+                                <th>Denda</th>
                                 <th>Catatan</th>
 
                             </tr>
@@ -170,6 +171,7 @@
                                     echo "<td>" . $row[0]['jatuh_tempo'] ."</td>";
                                     echo "<td>" . $row[0]['telp'] ."</td>";
                                     echo "<td>" . $row[0]['alamat'] ."</td>";
+                                    echo "<td>" . $row[0]['denda'] ."</td>";
 
                                     echo "<td>";
                                     foreach($row[1] as $subrow){

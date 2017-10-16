@@ -143,7 +143,7 @@ class Cicilan extends CI_Model {
         if ($wi != ""){$wi = " and " . $wi;}
         $query = $this->db->query("
         select dp.kd_nota, dp.kd_trans, DATE_FORMAT(dp.tgl_trans, '%d-%m-%Y') as tgl_trans, dp.bayar, DATE_FORMAT(dp.jatuh_tempo, '%d-%m-%Y') as jatuh_tempo, dp.kd_kar, dp.updated, dp.deleted, dp.is_transfer, cust.nama as nama_cust, cust.alamat, 
-        cust.telp, cust.telp2, cust.telp3, cust.kecamatan, cust.kelurahan, tr.cicilan, tr.dp_cicilan, kar.nama as nama_agen, blok.nama_blok, ta.nomor_tanah
+        cust.telp, cust.telp2, cust.telp3, cust.kecamatan, cust.kelurahan, tr.cicilan, tr.dp_cicilan, kar.nama as nama_agen, blok.nama_blok, ta.nomor_tanah, 0 as denda
         from transaksi tr
         left join customer cust on tr.kd_cust = cust.kd_cust 
         left join tanah ta on ta.kd_tanah = tr.kd_tanah
@@ -159,11 +159,11 @@ class Cicilan extends CI_Model {
         left join dp on tr.kd_trans = dp.kd_trans and dp.kd_nota = d.kd_nota
         left join (select count(kd_nota) as jum, sum(bayar) as bayar, kd_trans from dp where dp.deleted = 0 group by kd_trans) jum_dp on jum_dp.kd_trans = tr.kd_trans
         left join (select count(kd_nota) as jum, kd_trans from cicilan where deleted = 0 group by kd_trans) cicilan on cicilan.kd_trans = tr.kd_trans
-        where DATE_FORMAT(dp.jatuh_tempo, '%d-%m-%Y') < DATE_FORMAT(now(), '%d-%m-%Y') and jum_dp.jum = tr.dp_cicilan and cicilan.jum is null and jum_dp.bayar >= tr.dp
+        where dp.jatuh_tempo < now() and jum_dp.jum = tr.dp_cicilan and cicilan.jum is null and jum_dp.bayar >= tr.dp
         $wc
         UNION 
         select cicilan.kd_nota, cicilan.kd_trans, DATE_FORMAT(cicilan.tgl_trans, '%d-%m-%Y') as tgl_trans, cicilan.bayar, DATE_FORMAT(cicilan.jatuh_tempo, '%d-%m-%Y') as jatuh_tempo, cicilan.kd_kar, cicilan.updated, cicilan.deleted, cicilan.is_transfer, cust.nama as nama_cust, cust.alamat, 
-        cust.telp, cust.telp2, cust.telp3, cust.kecamatan, cust.kelurahan, tr.cicilan, tr.dp_cicilan, kar.nama as nama_agen, blok.nama_blok, ta.nomor_tanah
+        cust.telp, cust.telp2, cust.telp3, cust.kecamatan, cust.kelurahan, tr.cicilan, tr.dp_cicilan, kar.nama as nama_agen, blok.nama_blok, ta.nomor_tanah, cil.denda
         from transaksi tr
         left join customer cust on tr.kd_cust = cust.kd_cust 
         left join tanah ta on ta.kd_tanah = tr.kd_tanah
@@ -179,7 +179,7 @@ class Cicilan extends CI_Model {
         left join cicilan on tr.kd_trans = cicilan.kd_trans and cicilan.kd_nota = cil.kd_nota
         left join (select count(kd_nota) as jum, sum(bayar) as bayar, sum(denda) as denda, kd_trans from cicilan where cicilan.deleted = 0 group by kd_trans) jum_cicilan on jum_cicilan.kd_trans = tr.kd_trans
         left join (select sum(bayar) as bayar, kd_trans from dp where deleted = 0 group by kd_trans  ) dp on dp.kd_trans = tr.kd_trans
-        where DATE_FORMAT(cicilan.jatuh_tempo, '%d-%m-%Y') < DATE_FORMAT(now(), '%d-%m-%Y') and (jum_cicilan.jum <= tr.cicilan and jum_cicilan.bayar < tr.harga - tr.diskon + jum_cicilan.denda - dp.bayar)
+        where cicilan.jatuh_tempo < now() and (jum_cicilan.jum <= tr.cicilan and jum_cicilan.bayar < tr.harga - tr.diskon + jum_cicilan.denda - dp.bayar)
         $wi");
         return $query->result_array();
     }

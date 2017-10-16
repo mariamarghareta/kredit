@@ -141,7 +141,8 @@ class Transaksiadmin2_baru extends CI_Controller {
         $this->data['tb_cidiskon']=$this->input->post('tb_cidiskon');
         $this->data['tb_ciangsuran']=$this->input->post('tb_ciangsuran');
         $this->data['tb_bulanbaliknama']=$this->input->post('tb_bulanbaliknama');
-        
+        $this->data['tb_biayabaliknama']=$this->input->post('tb_biayabaliknama');
+
         
         
         if($this->data['cb_tipebayar'] == "cash"){
@@ -152,10 +153,10 @@ class Transaksiadmin2_baru extends CI_Controller {
             $this->form_validation->set_rules('tb_bookbayar', 'Cicilan', 'required', array('required' => '%s harus diisi', 'numeric' => '%s harus berupa angka'));
         } else if($this->data['cb_tipebayar'] == "cicilan"){
             $this->form_validation->set_rules('tb_cidp', 'DP/UM', 'required', array('required' => '%s harus diisi', 'numeric' => '%s harus berupa angka'));
-            $this->form_validation->set_rules('tb_ciberapabulan', '', 'greater_than[0]|less_than[11]', array('required' => '%s harus diisi', 'numeric' => '%s harus berupa angka', 'greater_than'=> 'Minimal 1x', 'less_than'=>'Maximal 3x'));
+            $this->form_validation->set_rules('tb_ciberapabulan', '', 'greater_than[0]|less_than[25]', array('required' => '%s harus diisi', 'numeric' => '%s harus berupa angka', 'greater_than'=> 'Minimal 1x', 'less_than'=>'Maximal 24x'));
             $this->form_validation->set_rules('tb_cidp1', '', 'required', array('required' => 'Harus diisi', 'numeric' => 'Harus berupa angka'));
             $this->form_validation->set_rules('tb_cidiskon', '', '', array('required' => 'Harus diisi', 'numeric' => 'Harus berupa angka'));
-            $this->form_validation->set_rules('tb_ciangsuran', '', 'required|greater_than[0]|less_than[41]', array('required' => 'Harus diisi', 'numeric' => 'Harus berupa angka', 'greater_than'=> 'Minimal 1x', 'less_than'=>'Maximal 40x'));
+            $this->form_validation->set_rules('tb_ciangsuran', '', 'required|greater_than[0]|less_than[101]', array('required' => 'Harus diisi', 'numeric' => 'Harus berupa angka', 'greater_than'=> 'Minimal 1x', 'less_than'=>'Maximal 100x'));
         }
         $this->form_validation->set_rules('tb_bulanbaliknama', '', 'required|greater_than[0]|less_than[21]', array('required' => 'Harus diisi', 'numeric' => 'Harus berupa angka', 'greater_than'=> 'Minimal 1x', 'less_than'=>'Maximal 20x'));
         $this->form_validation->set_rules('tb_biayabaliknama', '', 'required', array('required' => 'Harus diisi'));

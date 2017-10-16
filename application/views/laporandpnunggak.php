@@ -71,7 +71,7 @@
                                     if($select_kav == $row->kd_blok){echo " selected";}
                                     echo "> $row->nama_blok</option>";
                                 }
-                                echo "<option value='all'>All</option>"
+                                if($select_kav == "all"){echo "<option value='all' selected>All</option>";} else {echo "<option value='all'>All</option>";}
                                 ?>
                             </select>
                         </div>
