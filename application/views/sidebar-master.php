@@ -68,6 +68,12 @@
                   </a>
               </li>
               <li class="sub-menu">
+                  <a href="<?= base_url();?><?= index_page();?>/Masterdenda" id="menu_denda" >
+                      <i class="fa fa-exclamation"></i>
+                      <span>Ubah Nominal Denda</span>
+                  </a>
+              </li>
+              <li class="sub-menu">
                   <a href="<?= base_url();?><?= index_page();?>/Changepass" id="menu_pass" >
                       <i class="fa fa-key"></i>
                       <span>Ubah Password</span>

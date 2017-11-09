@@ -51,6 +51,21 @@ class Pengeluaran extends CI_Model {
         $wc " );
         return $query->result_array();
     }
+
+    public function get_total_pengeluaran($range, $par1, $par2, $jenispengeluaran){
+        $wc="";
+        if($range == "bulan"){
+
+            $wc .= ("where DATE_FORMAT(p.tgl_pengeluaran, '%m-%Y') =  '$par1' ");
+        } else if($range=="jangka"){
+
+            $wc .= ("where DATE_FORMAT(p.tgl_pengeluaran,'%Y-%m-%d') >=  STR_TO_DATE('$par1', '%d-%m-%Y') and DATE_FORMAT(p.tgl_pengeluaran,'%Y-%m-%d') <=  STR_TO_DATE('$par2', '%d-%m-%Y')");
+        }
+        $query= $this->db->query("select sum(p.pengeluaran) as total_pengeluaran
+        from pengeluaran p
+        $wc " );
+        return $query->row();
+    }
     
     public function get_one_data($kd_pengeluaran){
         $query = $this->db->select(" p.kd_pengeluaran, p.pengeluaran, DATE_FORMAT(p.tgl_pengeluaran, '%d-%m-%Y') as tgl_pengeluaran, p.keterangan, p.penanggung_jawab, p.kd_jenispengeluaran")

@@ -78,26 +78,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     } else {
                                         $temp["is_transfer"] = "Tidak";
                                     }
+                                    if(strlen($temp["catatan"])>0){
+                                        $catatan = " (". $temp["catatan"].")";
+                                    }else{
+                                        $catatan = " (-)";
+                                    }
                                     if(substr($temp['kd_nota'],0,1) == "C"){
                                         $ctr_cash += 1;
-                                        echo "Cash ke-$ctr_cash: ". number_format($temp['bayar'],0,",",".") ."</br>Tgl. Bayar: ". $temp['tgl_trans'] ."</br> Transfer:". $temp["is_transfer"]."</br>";
+                                        echo "Cash ke-$ctr_cash: ". number_format($temp['bayar'],0,",",".") ."</br>Tgl. Bayar: ". $temp['tgl_trans'] ."</br> Transfer:". $temp["is_transfer"].$catatan."</br>";
                                     }else if(substr($temp['kd_nota'],0,1) == "I"){
                                         $ctr_cicilan+=1;
-                                        echo "Cicilan ke-$ctr_cicilan: ". number_format($temp['bayar'],0,",",".")  ."</br>Tgl. Bayar: ". $temp['tgl_trans'] ."</br> Transfer:". $temp["is_transfer"]."</br>";
+                                        echo "Cicilan ke-$ctr_cicilan: ". number_format($temp['bayar'],0,",",".")  ."</br>Tgl. Bayar: ". $temp['tgl_trans'] ."</br> Transfer:". $temp["is_transfer"].$catatan."</br>";
                                     }else if(substr($temp['kd_nota'],0,1) == "B"){
-                                        echo "Booking: ". number_format($temp['bayar'],0,",",".")  ."</br>Tgl. Bayar: ". $temp['tgl_trans'] ."</br> Transfer:". $temp["is_transfer"]."</br>";
+                                        echo "Booking: ". number_format($temp['bayar'],0,",",".")  ."</br>Tgl. Bayar: ". $temp['tgl_trans'] ."</br> Transfer:". $temp["is_transfer"].$catatan."</br>";
                                     }else if(substr($temp['kd_nota'],0,1) == "D"){
                                         $ctr_dp += 1;
-                                        echo "DP/UM ke-$ctr_dp: ". number_format($temp['bayar'],0,",",".")  ."</br>Tgl. Bayar: ". $temp['tgl_trans'] ."</br> Transfer:". $temp["is_transfer"]."</br>";
+                                        echo "DP/UM ke-$ctr_dp: ". number_format($temp['bayar'],0,",",".")  ."</br>Tgl. Bayar: ". $temp['tgl_trans'] ."</br> Transfer:". $temp["is_transfer"].$catatan."</br>";
                                     }else if(substr($temp['kd_nota'],0,1) == "P"){
-                                        echo "PPJB: ". number_format($temp['bayar'],0,",",".")  ."</br>Tgl. Bayar: ". $temp['tgl_trans'] ."</br> Transfer:". $temp["is_transfer"]."</br>";
+                                        echo "PPJB: ". number_format($temp['bayar'],0,",",".")  ."</br>Tgl. Bayar: ". $temp['tgl_trans'] ."</br> Transfer:". $temp["is_transfer"].$catatan."</br>";
                                     }else if(substr($temp['kd_nota'],0,1) == "N"){
                                         $ctr_bn += 1;
-                                        echo "Balik Nama ke-$ctr_bn: ". number_format($temp['bayar'],0,",",".")  ."</br>Tgl. Bayar: ". $temp['tgl_trans'] ."</br> Transfer:". $temp["is_transfer"]."</br>";
+                                        echo "Balik Nama ke-$ctr_bn: ". number_format($temp['bayar'],0,",",".")  ."</br>Tgl. Bayar: ". $temp['tgl_trans'] ."</br> Transfer:". $temp["is_transfer"].$catatan."</br>";
                                     }
 
                                     if(substr($temp['kd_nota'],0,1) == "M"){
-                                        echo "$temp[keterangan]</br>Tgl. Bayar: $temp[tgl_trans] </br>Transfer: $temp[is_transfer]";
+                                        echo "$temp[keterangan]</br>Tgl. Bayar: $temp[tgl_trans] </br>Transfer: $temp[is_transfer] $catatan";
                                     } 
                                      echo "</br>";
                                     if ($temp["is_transfer"] == "Tidak"){
@@ -128,9 +133,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     </div>
     <div class="col-sm-10 col-sm-offset-1 text-center mt f-arial">
-        <h3><?="Total (Non Transfer): Rp " . number_format($total,0,",",".")?></h3>
-        <h3><?="Total (Transfer): Rp " . number_format($tot_transfer,0,",",".")?></h3>
         <h3><?="Total Keseluruhan: Rp " . number_format($tot_transfer + $total,0,",",".")?></h3>
+        <h3><?="Total (Transfer): Rp " . number_format($tot_transfer,0,",",".")?></h3>
+        <h3><?="Pengeluaran: Rp " . number_format($total_pengeluaran,0,",",".")?></h3>
+        <h3><?="Total Keseluruhan: Rp " . number_format( $total - $total_pengeluaran,0,",",".")?></h3>
     </div>
 </body>
 </html>

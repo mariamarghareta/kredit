@@ -18,7 +18,8 @@ class Booking extends CI_Model {
             'jatuh_tempo'=> date('Y-m-d',strtotime($data['jatuh_tempo'])),
             'tgl_trans'=> date('Y-m-d',strtotime($data['tgl_bayar'])),
             'deleted'=>0,
-            'is_transfer' => $data['is_transfer']
+            'is_transfer' => $data['is_transfer'],
+            'keterangan' => $data['keterangan']
         );
 
         $query = $this->db->insert('booking', $query);

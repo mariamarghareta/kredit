@@ -21,6 +21,7 @@ class Transaksimaster extends CI_Controller {
         $this->load->model('Dp');
         $this->load->model('Cicilan');
         $this->load->model('Catatan');
+        $this->load->model('Denda');
     }
     private $data;
 	public function index()
@@ -73,11 +74,11 @@ class Transaksimaster extends CI_Controller {
         $this->data['besar_baliknama'] = "";
         $this->data['catatan'] = "";
         $this->data['detail_catatan'] = "";
-
+        $this->data['besar_denda']=$this->Denda->get_nominal()->nominal;
     }
     public function check_role(){
         if(isset($_SESSION['kd_role'])){
-            if($_SESSION['kd_role'] != "RL001"){
+            if($_SESSION['kd_role'] != "RL001" and $_SESSION['kd_role'] != "RL002" and $_SESSION['kd_role'] != "RL003"){
                 session_destroy();
                 redirect('Welcome');
             }else{

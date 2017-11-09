@@ -41,6 +41,7 @@ class Transaksiadmin2_baru2 extends CI_Controller {
         $this->data['msg']="";
         $this->data['tgl_bayar']="";
         $this->data['jatuh_tempo_bn']="";
+        $this->data['keterangan']="";
     }
     public function check_role(){
         if(isset($_SESSION['kd_role'])){
@@ -111,7 +112,8 @@ class Transaksiadmin2_baru2 extends CI_Controller {
         $this->get_data();
         $this->data['jatuh_tempo'] = $this->input->post('jatuh_tempo');
         $this->data['tgl_bayar'] = $this->input->post('tgl_bayar');
-        
+        $this->data['keterangan'] = $this->input->post('keterangan');
+
         if(($this->input->post('is_transfer')) == 1){
             $this->data['is_transfer'] = 1;
         } else {

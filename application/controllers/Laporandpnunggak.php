@@ -15,6 +15,7 @@ class Laporandpnunggak extends CI_Controller {
         $this->load->model('Blok');
         $this->load->model('Dp');
         $this->load->model('Catatan');
+        $this->load->model('Denda');
     }
     private $data;
     public function index()
@@ -50,7 +51,7 @@ class Laporandpnunggak extends CI_Controller {
     }
     public function clear(){
         $this->data['kavling'] = $this->Blok->show_all();
-
+        $this->data['besar_denda']=$this->Denda->get_nominal()->nominal;
         $date = new DateTime();
         $date->setTimezone(new DateTimeZone('GMT+7'));
         $this->data['bulan'] = $date->format("m");

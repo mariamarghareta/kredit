@@ -12,6 +12,7 @@ class Laporanpenjualan extends CI_Controller {
         $this->load->library('trans');
         $this->load->model('Timeout');
         $this->load->model('Pendapatan');
+        $this->load->model('Pengeluaran');
         $this->load->model('Blok');
     }
     private $data;
@@ -62,7 +63,8 @@ class Laporanpenjualan extends CI_Controller {
         $this->data['kavling'] = $this->Blok->show_all();
         $this->data['select_kav'] = null;
         $this->data['kav'] = null;
-        
+        $this->data['total_pengeluaran'] = null;
+
         $date = new DateTime();
         $date->setTimezone(new DateTimeZone('GMT+7'));
         $this->data['bulan'] = $date->format("m");
@@ -96,17 +98,18 @@ class Laporanpenjualan extends CI_Controller {
             //echo $this->data['bulan'];
             $this->data['arr'] = $this->Pendapatan->detail_gabungan($this->data['tipe'], $temp, $this->data['range'], $this->data['bulan']."-".$this->data['tahun'],"",$this->data['kav'], $this->data['select_kav']);
             $this->get_subdetail($this->data['tipe'], $temp, $this->data['range'], $this->data['bulan']."-".$this->data['tahun'],"",$this->data['kav'], $this->data['select_kav']);
-            
+            $this->data['total_pengeluaran'] = $this->Pengeluaran->get_total_pengeluaran($this->data['range'], $this->data['bulan']."-".$this->data['tahun'],"","all")->total_pengeluaran;
         }else if($this->data['range'] == "jangka"){
             $this->data['mulai'] = $this->input->post('mulai');
             $this->data['akhir'] = $this->input->post('akhir');
 
             $this->data['arr'] = $this->Pendapatan->detail_gabungan($this->data['tipe'], $temp , $this->data['range'], $this->data['mulai'],$this->data['akhir'],$this->data['kav'], $this->data['select_kav']);
             $this->get_subdetail($this->data['tipe'], $temp , $this->data['range'], $this->data['mulai'],$this->data['akhir'],$this->data['kav'], $this->data['select_kav']);
-            
+            $this->data['total_pengeluaran'] = $this->Pengeluaran->get_total_pengeluaran($this->data['range'], $this->data['mulai'],$this->data['akhir'], "all")->total_pengeluaran;
         }else if($this->data['range'] == "tgl_all"){
             $this->data['arr'] = $this->Pendapatan->detail_gabungan($this->data['tipe'], $temp, "tgl-all","","",$this->data['kav'], $this->data['select_kav']);
             $this->get_subdetail($this->data['tipe'], $temp, "tgl-all","","",$this->data['kav'], $this->data['select_kav']);
+            $this->data['total_pengeluaran'] = $this->Pengeluaran->get_total_pengeluaran("tgl-all","","", "all")->total_pengeluaran;
         }
         
         $this->show();

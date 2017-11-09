@@ -12,14 +12,15 @@ class Baliknama extends CI_Model {
         $this->load->database();
     }
 
-    public function insert($kd_trans, $biaya, $kd_kar, $tgl_trans, $jatuh_tempo, $is_transfer){
+    public function insert($kd_trans, $biaya, $kd_kar, $tgl_trans, $jatuh_tempo, $is_transfer, $keterangan){
         $array = array(
             'kd_trans'=>$kd_trans,
             'bayar'=>$biaya,
             'kd_kar'=>$kd_kar,
             'tgl_trans'=>date('Y-m-d',strtotime($tgl_trans)),
 			'jatuh_tempo' => date('Y-m-d',strtotime($jatuh_tempo)),
-			'is_transfer' => $is_transfer
+			'is_transfer' => $is_transfer,
+            'keterangan' => $keterangan
         );
         $query = $this->db->insert('balik_nama', $array);
         if($query == 1){

@@ -108,6 +108,13 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-sm-6">Keterangan:</label>
+                            <div class="control-label col-sm-4 text-left">
+                                <?php echo form_input(array('name'=>'keterangan', 'id'=>'keterangan', 'class'=>'form-control', 'placeholder'=>'Masukkan keterangan'), $keterangan);?>
+                                <?php echo form_error('keterangan'); ?>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-sm-12 text-center mt">
                                 <button type="submit" name="submit" id="submit" class="btn btn-success " value="submit">Cetak Nota</button>
                                 <button type="submit" name="kembali" id="kembali" class="btn btn-success " value="kembali">Kembali</button>

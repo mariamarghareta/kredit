@@ -145,6 +145,8 @@
                                 <th>Tgl. Jatuh Tempo</th>
                                 <th>Telp.</th>
                                 <th>Alamat</th>
+                                <th>Nominal Cicilan</th>
+                                <th>Denda</th>
                                 <th>Catatan</th>
 
                             </tr>
@@ -169,6 +171,10 @@
                                     echo "<td>" . $row[0]['jatuh_tempo'] ."</td>";
                                     echo "<td>" . $row[0]['telp'] ."</td>";
                                     echo "<td>" . $row[0]['alamat'] ."</td>";
+                                    echo "<td>" . $row[0]['tunggakan'] ."</td>";
+                                    $bulan_telat = $row[0]['bulan_telat'];
+                                    if ($row[0]['bulan_telat'] == 0){$bulan_telat = 1;}
+                                    echo "<td>". $bulan_telat  * $besar_denda ."</td>";
 
                                     echo "<td>";
                                     foreach($row[1] as $subrow){

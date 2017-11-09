@@ -7,7 +7,7 @@
               <h5 class="centered"><?php echo strtoupper($_SESSION['uname']);?></h5>
 
               <li class="mt" >
-                  <a href="<?= base_url();?><?= index_page();?>/Transaksibayar" id="trans_bayar">
+                  <a href="<?= base_url();?><?= index_page();?>/Transaksimaster" id="trans_bayar">
                       <i class="fa fa-money"></i>
                       <span>Bayar Cicilan</span>
                   </a>

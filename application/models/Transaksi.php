@@ -186,7 +186,7 @@ class Transaksi extends CI_Model {
         */
         if($tabel == "P"){
             
-             $finalquery = $this->db->select('t.*, p.tgl_bayar as tgl_trans, k.nama as nama_kar, p.kd_nota, p.bayar , cus.nama, tan.nomor_tanah, b.nama_blok, k1.nama as nama_karyawan, p.is_transfer')
+             $finalquery = $this->db->select('t.*, p.tgl_bayar as tgl_trans, k.nama as nama_kar, p.kd_nota, p.bayar , cus.nama, tan.nomor_tanah, b.nama_blok, k1.nama as nama_karyawan, p.is_transfer, p.keterangan')
                     ->from('transaksi t')
                     ->join('ppjb p', 'p.kd_trans = t.kd_trans')
                     ->join('customer cus', 'cus.kd_cust = t.kd_cust')
@@ -200,7 +200,7 @@ class Transaksi extends CI_Model {
                     ->row();
                 return $finalquery;
         } else if($tabel == "C"){
-            $finalquery = $this->db->select('t.*, c.tgl_trans, c.bayar, c.jatuh_tempo, c.kd_nota, cus.nama, tan.nomor_tanah, b.nama_blok, ifnull(bn.bayar,0) as balik_nama, k.nama as nama_karyawan, c.is_transfer')
+            $finalquery = $this->db->select('t.*, c.tgl_trans, c.bayar, c.jatuh_tempo, c.kd_nota, cus.nama, tan.nomor_tanah, b.nama_blok, ifnull(bn.bayar,0) as balik_nama, k.nama as nama_karyawan, c.is_transfer, c.keterangan')
                 ->from('transaksi t')
                 ->join('cash c', 'c.kd_trans = t.kd_trans')
                 ->join('customer cus', 'cus.kd_cust = t.kd_cust')
@@ -214,7 +214,7 @@ class Transaksi extends CI_Model {
                 ->row();
             return $finalquery;
         }else if($tabel == "N"){
-            $finalquery = $this->db->select('t.*, cus.nama, tan.nomor_tanah, b.nama_blok, ifnull(bn.bayar,0) as balik_nama, bn.kd_nota, bn.tgl_trans as tgl_balik_nama, k.nama as nama_karyawan, bn.is_transfer')
+            $finalquery = $this->db->select('t.*, cus.nama, tan.nomor_tanah, b.nama_blok, ifnull(bn.bayar,0) as balik_nama, bn.kd_nota, bn.tgl_trans as tgl_balik_nama, k.nama as nama_karyawan, bn.is_transfer, bn.keterangan')
                 ->from('transaksi t')
                 ->join('customer cus', 'cus.kd_cust = t.kd_cust')
                 ->join('tanah tan', 'tan.kd_tanah = t.kd_tanah')
@@ -227,7 +227,7 @@ class Transaksi extends CI_Model {
                 ->row();
             return $finalquery;
         }else if($tabel == "I"){
-            $finalquery = $this->db->select('t.*, i.tgl_trans, i.bayar, i.denda, i.jatuh_tempo, i.kd_nota, cus.nama, tan.nomor_tanah, b.nama_blok, ifnull(bn.bayar,0) as balik_nama, k.nama as nama_karyawan, i.is_transfer')
+            $finalquery = $this->db->select('t.*, i.tgl_trans, i.bayar, i.denda, i.jatuh_tempo, i.kd_nota, cus.nama, tan.nomor_tanah, b.nama_blok, ifnull(bn.bayar,0) as balik_nama, k.nama as nama_karyawan, i.is_transfer, i.keterangan')
                 ->from('transaksi t')
                 ->join('cicilan i', 'i.kd_trans = t.kd_trans')
                 ->join('customer cus', 'cus.kd_cust = t.kd_cust')
@@ -242,7 +242,7 @@ class Transaksi extends CI_Model {
             return $finalquery;
         }else if($tabel == "B"){
                 
-            $finalquery = $this->db->select('t.*, book.kd_nota, book.tgl_trans, book.bayar, book.jatuh_tempo, cus.nama, tan.nomor_tanah, b.nama_blok, ifnull(bn.bayar,0) as balik_nama, bn.tgl_trans as tgl_balik_nama, k.nama as nama_karyawan, book.is_transfer')
+            $finalquery = $this->db->select('t.*, book.kd_nota, book.tgl_trans, book.bayar, book.jatuh_tempo, cus.nama, tan.nomor_tanah, b.nama_blok, ifnull(bn.bayar,0) as balik_nama, bn.tgl_trans as tgl_balik_nama, k.nama as nama_karyawan, book.is_transfer, book.keterangan')
                 ->from('transaksi t')
                 ->join('booking book', 'book.kd_trans = t.kd_trans')
                 ->join('customer cus', 'cus.kd_cust = t.kd_cust')
@@ -256,7 +256,7 @@ class Transaksi extends CI_Model {
                 ->row();
             return $finalquery;
         }else if($tabel == "D"){
-            $finalquery = $this->db->select('t.*, d.tgl_trans, d.bayar , d.jatuh_tempo, d.kd_nota, cus.nama, tan.nomor_tanah, b.nama_blok, ifnull(bn.bayar,0) as balik_nama, k.nama as nama_karyawan, d.is_transfer')
+            $finalquery = $this->db->select('t.*, d.tgl_trans, d.bayar , d.jatuh_tempo, d.kd_nota, cus.nama, tan.nomor_tanah, b.nama_blok, ifnull(bn.bayar,0) as balik_nama, k.nama as nama_karyawan, d.is_transfer, d.keterangan')
                 ->from('transaksi t')
                 ->join('dp d', 'd.kd_trans = t.kd_trans')
                 ->join('customer cus', 'cus.kd_cust = t.kd_cust')

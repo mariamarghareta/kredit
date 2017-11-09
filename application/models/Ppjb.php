@@ -19,7 +19,7 @@ class Ppjb extends CI_Model {
             ->row();
         return $query;
     } 
-    public function insert($kd_trans, $bayar, $tgl_bayar, $kar_jual, $kd_kar, $is_transfer){
+    public function insert($kd_trans, $bayar, $tgl_bayar, $kar_jual, $kd_kar, $is_transfer, $keterangan){
         $array = array(
             'kd_trans' => $kd_trans,
             'bayar' => $bayar,
@@ -27,7 +27,8 @@ class Ppjb extends CI_Model {
             'kar_jual' => $kar_jual,
             'kd_kar' => $kd_kar,
             'is_transfer' => $is_transfer,
-            'bonus_agen' => 0
+            'bonus_agen' => 0,
+            'keterangan' => $keterangan
         );
         $query = $this->db->insert('ppjb', $array);
         if($query == 1){

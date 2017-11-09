@@ -130,6 +130,13 @@
                     <div class="col-sm-12">
                         <?=$msg;?>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-6">Keterangan:</label>
+                        <div class="control-label col-sm-4 text-left">
+                            <?php echo form_input(array('name'=>'keterangan', 'id'=>'keterangan', 'class'=>'form-control', 'placeholder'=>'Masukkan keterangan'), $keterangan);?>
+                            <?php echo form_error('keterangan'); ?>
+                        </div>
+                    </div>
                     <div class="col-sm-12 text-center mt mb">    
                         <button type="submit" class="btn btn-success" name="submit" id="submit">Cetak Nota</button>
                         <button type="button" value="" class="btn btn-success" onClick="location.href='<?php echo base_url(). index_page();?>/Transaksiadmin2_baru'">Back</button>

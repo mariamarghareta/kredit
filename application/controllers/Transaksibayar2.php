@@ -33,7 +33,7 @@ class Transaksibayar2 extends CI_Controller {
     private function check_tahap(){
         
         if(!isset($_SESSION['kd_trans'])){
-            redirect('Transaksibayar');
+            redirect('Transaksimaster');
         }
     }
     public function show(){
@@ -44,6 +44,7 @@ class Transaksibayar2 extends CI_Controller {
         $this->data['jatuh_tempo']="";
         $this->data['msg']="";
         $this->data['tgl_bayar']="";
+        $this->data['keterangan']="";
     }
     public function check_role(){
         if(isset($_SESSION['kd_role'])){
@@ -194,6 +195,7 @@ class Transaksibayar2 extends CI_Controller {
         $this->data['jatuh_tempo'] = $this->input->post('jatuh_tempo');
         $this->data['tgl_bayar'] = $this->input->post('tgl_bayar');
         $this->data['is_transfer'] = $this->input->post('is_transfer');
+        $this->data['keterangan'] = $this->input->post('keterangan');
         $this->form_validation->set_rules('tgl_bayar', 'Tanggal Bayar', 'required', array('required' => '%s harus dipilih', 'check_date' => 'Tanggal harus lebih besar dari hari ini'));
 		$this->form_validation->set_rules('jatuh_tempo', 'Jatuh Tempo', 'required', array('required' => '%s harus dipilih', 'check_date' => 'Tanggal harus lebih besar dari hari ini'));
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>'); 
@@ -229,9 +231,9 @@ class Transaksibayar2 extends CI_Controller {
             }
             $this->session->set_tempdata($array, NULL, 600);
            if($_SESSION['kd_role'] == "RL002"){
-                redirect('Transaksibayar/cek_nota');
+                redirect('Transaksimaster/cek_nota');
            } else if($_SESSION['kd_role'] == "RL003"){
-                redirect('Transaksiadmin2/cek_nota');
+                redirect('Transaksimaster/cek_nota');
            }else if($_SESSION['kd_role'] == "RL001"){
                 redirect('Transaksimaster/cek_nota');
            }
@@ -296,7 +298,7 @@ class Transaksibayar2 extends CI_Controller {
                     }
                     */
                 }else if($this->data['tipe_bayar']== 5){
-                    $hasil = $this->Baliknama->insert($this->data['kd_trans'], $this->input->post('balik_nama'), $_SESSION['kd_kar'], $this->input->post('tgl_bayar'), $this->input->post('jatuh_tempo'), $this->input->post('is_transfer'));
+                    $hasil = $this->Baliknama->insert($this->data['kd_trans'], $this->input->post('balik_nama'), $_SESSION['kd_kar'], $this->input->post('tgl_bayar'), $this->input->post('jatuh_tempo'), $this->input->post('is_transfer'), $this->input->post('keterangan'));
                     
                 }else if($this->data['tipe_bayar']== 7){
                     $hasil = $this->Transaksi->update_cash($this->data['kd_trans'], $this->input->post('diskon'), $this->input->post('cicilan'));

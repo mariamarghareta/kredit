@@ -71,6 +71,7 @@ class Transaksiadmin2_2 extends CI_Controller {
         $this->data['tgl_bayar'] = "";
         $this->data['msg'] = "";
         $this->data['is_transfer'] = "";
+        $this->data['keterangan'] = "";
     }
     public function check_role(){
         if(isset($_SESSION['kd_role'])){
@@ -129,6 +130,7 @@ class Transaksiadmin2_2 extends CI_Controller {
         $this->clear();
         $this->get_data();
         $this->data['tgl_bayar'] = $this->input->post('tgl_bayar');
+        $this->data['keterangan'] = $this->input->post('keterangan');
 
         $this->form_validation->set_rules('tgl_bayar', 'Tanggal Bayar', 'required', array('required' => '%s harus dipilih', 'check_date' => 'Tanggal harus lebih besar dari hari ini'));
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>'); 
@@ -151,7 +153,7 @@ class Transaksiadmin2_2 extends CI_Controller {
             }
         }else{
             if ($this->form_validation->run() != FALSE){
-                $hasil = $this->Ppjb->insert($this->data['kd_trans'], $this->data['ppjb'], $this->data['tgl_bayar'], $this->data['kd_agen'], $_SESSION['kd_kar'], $this->data['is_transfer']);
+                $hasil = $this->Ppjb->insert($this->data['kd_trans'], $this->data['ppjb'], $this->data['tgl_bayar'], $this->data['kd_agen'], $_SESSION['kd_kar'], $this->data['is_transfer'], $this->data['keterangan']);
                 if($hasil != null){
                     $this->destroy_data_session();
                     $this->data['kd_fin']= $hasil->kd_nota;

@@ -98,6 +98,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 : Tidak
                             <?php
                                 }
+                            if (strlen($obj->keterangan)>0){
+                                print " ($obj->keterangan)";
+                            }
                             ?>
                         </td>
                     </tr>

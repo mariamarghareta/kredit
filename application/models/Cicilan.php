@@ -30,10 +30,10 @@ class Cicilan extends CI_Model {
             'kd_kar'=>$data['kar_input'],
             'deleted'=>0,
             'denda'=>$data['denda'],
-            'is_transfer' => $data['is_transfer']
+            'is_transfer' => $data['is_transfer'],
+            'keterangan' => $data['keterangan']
         );
         $query = $this->db->insert('cicilan', $query);
-        print $query;
         if($query == 1){
             return $this->get_kode($data);
         }else{
@@ -143,7 +143,7 @@ class Cicilan extends CI_Model {
         if ($wi != ""){$wi = " and " . $wi;}
         $query = $this->db->query("
         select dp.kd_nota, dp.kd_trans, DATE_FORMAT(dp.tgl_trans, '%d-%m-%Y') as tgl_trans, dp.bayar, DATE_FORMAT(dp.jatuh_tempo, '%d-%m-%Y') as jatuh_tempo, dp.kd_kar, dp.updated, dp.deleted, dp.is_transfer, cust.nama as nama_cust, cust.alamat, 
-        cust.telp, cust.telp2, cust.telp3, cust.kecamatan, cust.kelurahan, tr.cicilan, tr.dp_cicilan, kar.nama as nama_agen, blok.nama_blok, ta.nomor_tanah, 0 as denda
+        cust.telp, cust.telp2, cust.telp3, cust.kecamatan, cust.kelurahan, tr.cicilan, tr.dp_cicilan, kar.nama as nama_agen, blok.nama_blok, ta.nomor_tanah, 0 as denda, ROUND(tr.dp/tr.dp_cicilan) as tunggakan,  (YEAR(now()) - YEAR(dp.jatuh_tempo)) * 12 + (MONTH(now()) - MONTH(dp.jatuh_tempo)) as bulan_telat
         from transaksi tr
         left join customer cust on tr.kd_cust = cust.kd_cust 
         left join tanah ta on ta.kd_tanah = tr.kd_tanah
@@ -163,7 +163,7 @@ class Cicilan extends CI_Model {
         $wc
         UNION 
         select cicilan.kd_nota, cicilan.kd_trans, DATE_FORMAT(cicilan.tgl_trans, '%d-%m-%Y') as tgl_trans, cicilan.bayar, DATE_FORMAT(cicilan.jatuh_tempo, '%d-%m-%Y') as jatuh_tempo, cicilan.kd_kar, cicilan.updated, cicilan.deleted, cicilan.is_transfer, cust.nama as nama_cust, cust.alamat, 
-        cust.telp, cust.telp2, cust.telp3, cust.kecamatan, cust.kelurahan, tr.cicilan, tr.dp_cicilan, kar.nama as nama_agen, blok.nama_blok, ta.nomor_tanah, cil.denda
+        cust.telp, cust.telp2, cust.telp3, cust.kecamatan, cust.kelurahan, tr.cicilan, tr.dp_cicilan, kar.nama as nama_agen, blok.nama_blok, ta.nomor_tanah, cil.denda, ROUND((tr.harga - tr.dp - tr.diskon)/tr.cicilan) as tunggakan,  (YEAR(now()) - YEAR(cicilan.jatuh_tempo)) * 12 + (MONTH(now()) - MONTH(cicilan.jatuh_tempo)) as bulan_telat
         from transaksi tr
         left join customer cust on tr.kd_cust = cust.kd_cust 
         left join tanah ta on ta.kd_tanah = tr.kd_tanah

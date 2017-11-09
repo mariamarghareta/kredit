@@ -40,6 +40,8 @@
             include 'sidebar-master.php';
         } else if($_SESSION['kd_role'] == "RL003"){
             include 'sidebar-admin2.php';
+        } else if($_SESSION['kd_role'] == "RL002"){
+            include 'sidebar-admin1.php';
         }
             
       
@@ -198,9 +200,13 @@
                             ?>
                         </div>
                     </div>
+                    <?php
+                    if($_SESSION['kd_role'] == "RL001"){
+                    ?>
                     <div class="form-group text-center mt">
                         <button id="edit_header" type="submit" class="btn btn-success"><span class="fa fa-pencil"></span>Edit</button>
                     </div>
+                    <?php } ?>
                     <?php echo form_close();?>
                     
                 </div>
@@ -234,24 +240,30 @@
                                 <?php
                                 if ($header->bn_kd_nota != null) {
                                     $attributes = array('class' => 'form-horizontal', 'id' => 'edit_ppjb');
+                                if($_SESSION['kd_role'] == "RL001") {
                                     echo form_open('Transaksimaster/edit_baliknama', $attributes);
-                                    echo "
-                            <div class='col-sm-6 col-xs-6 text-right'>
-                            <input type='hidden' value='$item->kd_nota' name='kd_nota'>
-                            <input type='hidden' value='$kd_trans' name='kd_trans'>
-                            <button type='submit' id='edit' name='edit' class='btn btn-success'>Edit</button>
-                            </div>
-                            ";
-                                    echo form_close();
 
+                                    echo "
+                                    <div class='col-sm-6 col-xs-6 text-right'>
+                                    <input type='hidden' value='$item->kd_nota' name='kd_nota'>
+                                    <input type='hidden' value='$kd_trans' name='kd_trans'>
+                                    <button type='submit' id='edit' name='edit' class='btn btn-success'>Edit</button>
+                                    </div>
+                                    ";
+                                    echo form_close();
+                                }
                                     $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_cicilan', 'target' => '_blank');
                                     echo form_open('Mid/print_nota_again', $attributes);
+                                    if($_SESSION['kd_role'] == "RL001"){
+                                        echo "<div class='col-sm-6 col-xs-6 text-left'>";
+                                    } else {
+                                        echo "<div class='col-sm-12 col-xs-12 text-center'>";
+                                    }
                                     echo "
-                            <div class='col-sm-6 col-xs-6 text-left'>
-                            <input type='hidden' value='$item->kd_nota' name='kd_nota'>
-                            <button type='submit' id='edit' name='edit' class='btn btn-success'>Print</button>
-                            </div>
-                            ";
+                                    <input type='hidden' value='$item->kd_nota' name='kd_nota'>
+                                    <button type='submit' id='edit' name='edit' class='btn btn-success'>Print</button>
+                                    </div>
+                                    ";
                                     echo form_close();
                                 }
                                 ?>
@@ -308,20 +320,25 @@
                         if(sizeof($data_ppjb) > 0){
                             if($data_ppjb->kd_nota != null){
                                 $attributes = array('class' => 'form-horizontal', 'id' => 'edit_ppjb');
-                                echo form_open('Transaksimaster/edit_ppjb', $attributes); 
-                                echo "
-                                <div class='col-sm-6 col-xs-6 text-right'>
-                                <input type='hidden' value='$data_ppjb->kd_nota' name='kd_nota'>
-                                <input type='hidden' value='$kd_trans' name='kd_trans'>
-                                <button type='submit' id='edit' name='edit' class='btn btn-success'>Edit</button>
-                                </div>
-                                ";
-                                echo form_close();
-                                
+                                if($_SESSION['kd_role'] == "RL001") {
+                                    echo form_open('Transaksimaster/edit_ppjb', $attributes);
+                                    echo "
+                                    <div class='col-sm-6 col-xs-6 text-right'>
+                                    <input type='hidden' value='$data_ppjb->kd_nota' name='kd_nota'>
+                                    <input type='hidden' value='$kd_trans' name='kd_trans'>
+                                    <button type='submit' id='edit' name='edit' class='btn btn-success'>Edit</button>
+                                    </div>
+                                    ";
+                                        echo form_close();
+                                }
                                 $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_cicilan', 'target' => '_blank');
-                                echo form_open('Mid/print_nota_again', $attributes); 
+                                echo form_open('Mid/print_nota_again', $attributes);
+                                if($_SESSION['kd_role'] == "RL001"){
+                                    echo "<div class='col-sm-6 col-xs-6 text-left'>";
+                                } else {
+                                    echo "<div class='col-sm-12 col-xs-12 text-center'>";
+                                }
                                 echo "
-                                <div class='col-sm-6 col-xs-6 text-left'>
                                 <input type='hidden' value='$data_ppjb->kd_nota' name='kd_nota'>
                                 <button type='submit' id='edit' name='edit' class='btn btn-success'>Print</button>
                                 </div>
@@ -366,21 +383,26 @@
                                     echo "</div>";
                                     $ctr++;
                                     //$jatuh_tempo = $row['jatuh_tempo'];
-                                    $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_cicilan');
-                                    echo form_open('Transaksimaster/edit_nota', $attributes); 
-                                    echo "
-                                    <div class='col-sm-6 col-xs-6 text-right mb'>
-                                    <input type='hidden' value=$row[kd_nota] name='kd_nota'>
-                                    <input type='hidden' value=$kd_trans name='kd_trans'>
-                                    <button type='submit' id='edit' name='edit' class='btn btn-success'>Edit</button>
-                                    </div>
-                                    ";
-                                    echo form_close();
-                                    
+                                    if($_SESSION['kd_role'] == "RL001") {
+                                        $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_cicilan');
+                                        echo form_open('Transaksimaster/edit_nota', $attributes);
+                                        echo "
+                                        <div class='col-sm-6 col-xs-6 text-right mb'>
+                                        <input type='hidden' value=$row[kd_nota] name='kd_nota'>
+                                        <input type='hidden' value=$kd_trans name='kd_trans'>
+                                        <button type='submit' id='edit' name='edit' class='btn btn-success'>Edit</button>
+                                        </div>
+                                        ";
+                                        echo form_close();
+                                    }
                                     $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_cicilan', 'target' => '_blank');
-                                    echo form_open('Mid/print_nota_again', $attributes); 
+                                    echo form_open('Mid/print_nota_again', $attributes);
+                                    if($_SESSION['kd_role'] == "RL001") {
+                                        echo "<div class='col-sm-6 col-xs-6 text-left mb'>";
+                                    } else {
+                                        echo "<div class='col-sm-12 col-xs-12 text-center mb'>";
+                                    }
                                     echo "
-                                    <div class='col-sm-6 col-xs-6 text-left mb'>
                                     <input type='hidden' value=$row[kd_nota] name='kd_nota'>
                                     <button type='submit' id='edit' name='edit' class='btn btn-success'>Print</button>
                                     </div>
@@ -432,20 +454,25 @@
                                     echo "</div>";
                                     
                                     $attributes = array('class' => 'form-horizontal', 'id' => 'edit_dp');
-                                    echo form_open('Transaksimaster/edit_nota', $attributes); 
-                                    echo "
-                                    <div class='col-sm-6 col-xs-6 text-right mb'>
-                                    <input type='hidden' value=$row[kd_nota] name='kd_nota'>
-                                    <input type='hidden' value=$kd_trans name='kd_trans'>
-                                    <button type='submit' id='edit' name='edit' class='btn btn-success'>Edit</button>
-                                    </div>
-                                    ";
-                                    echo form_close();
-                                    
+                                    if($_SESSION['kd_role'] == "RL001") {
+                                        echo form_open('Transaksimaster/edit_nota', $attributes);
+                                        echo "
+                                        <div class='col-sm-6 col-xs-6 text-right mb'>
+                                        <input type='hidden' value=$row[kd_nota] name='kd_nota'>
+                                        <input type='hidden' value=$kd_trans name='kd_trans'>
+                                        <button type='submit' id='edit' name='edit' class='btn btn-success'>Edit</button>
+                                        </div>
+                                        ";
+                                        echo form_close();
+                                    }
                                     $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_cicilan', 'target' => '_blank');
-                                    echo form_open('Mid/print_nota_again', $attributes); 
+                                    echo form_open('Mid/print_nota_again', $attributes);
+                                    if($_SESSION['kd_role'] == "RL001") {
+                                        echo "<div class='col-sm-6 col-xs-6 text-left mb'>";
+                                    }else{
+                                        echo "<div class='col-sm-12 col-xs-12 text-center mb'>";
+                                    }
                                     echo "
-                                    <div class='col-sm-6 col-xs-6 text-left mb'>
                                     <input type='hidden' value=$row[kd_nota] name='kd_nota'>
                                     <button type='submit' id='edit' name='edit' class='btn btn-success'>Print</button>
                                     </div>
@@ -516,20 +543,25 @@
                                     echo "<div class='control-label col-sm-6 col-xs-6 text-left'>" .$row['nama'] . "</div>";
                                     echo "</div>";
                                     $attributes = array('class' => 'form-horizontal', 'id' => 'edit_cicilan');
-                                    echo form_open('Transaksimaster/edit_nota', $attributes); 
-                                    echo "
-                                    <div class='col-sm-6 col-xs-6 text-right mb'>
-                                    <input type='hidden' value=$row[kd_nota] name='kd_nota'>
-                                    <input type='hidden' value=$kd_trans name='kd_trans'>
-                                    <button type='submit' id='edit' name='edit' class='btn btn-success'>Edit</button>
-                                    </div>
-                                    ";
-                                    echo form_close();
-                                    
+                                    if($_SESSION['kd_role'] == "RL001") {
+                                        echo form_open('Transaksimaster/edit_nota', $attributes);
+                                        echo "
+                                            <div class='col-sm-6 col-xs-6 text-right mb'>
+                                            <input type='hidden' value=$row[kd_nota] name='kd_nota'>
+                                            <input type='hidden' value=$kd_trans name='kd_trans'>
+                                            <button type='submit' id='edit' name='edit' class='btn btn-success'>Edit</button>
+                                            </div>
+                                            ";
+                                        echo form_close();
+                                    }
                                     $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_cicilan', 'target' => '_blank');
-                                    echo form_open('Mid/print_nota_again', $attributes); 
+                                    echo form_open('Mid/print_nota_again', $attributes);
+                                    if($_SESSION['kd_role'] == "RL001") {
+                                        echo "<div class='col-sm-6 col-xs-6 text-left mb'>";
+                                    }else{
+                                        echo "<div class='col-sm-12 col-xs-12 text-center mb'>";
+                                    }
                                     echo "
-                                    <div class='col-sm-6 col-xs-6 text-left mb'>
                                     <input type='hidden' value=$row[kd_nota] name='kd_nota'>
                                     <button type='submit' id='edit' name='edit' class='btn btn-success'>Print</button>
                                     </div>
@@ -638,7 +670,13 @@
                         <?php
                             $dt = new DateTime();
                             $dt->setTimezone(new DateTimeZone('GMT+7'));
-                            if($dt->format("Y-m-d") > date("Y-m-d",strtotime($jatuh_tempo))  && (($header->tipe_bayar == 1 && $angsuran == 1) || ($header->tipe_bayar == 2 && $angsuran == 1))){
+                            $today = new DateTime($dt->format("Y-m-d"));
+                            $jt = new DateTime(date("Y-m-d",strtotime($jatuh_tempo)) );
+                            $diff = $today->diff($jt);
+                            $diff = (($diff->format('%y') * 12) + $diff->format('%m'));
+                            if($diff == 0){$diff = 1;}
+                            if($today > $jt  && (($header->tipe_bayar == 1 && $angsuran == 1) || ($header->tipe_bayar == 2 && $angsuran == 1))){
+                                $denda = $diff *$besar_denda;
                         ?>
                         <div class="form-group">
                             <label class="control-label col-sm-6"></label>
@@ -649,7 +687,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-6">Denda:</label>
                             <div class="col-sm-6">
-                              <?php echo form_input(array('name'=>'denda', 'id'=>'denda', 'class'=>'form-control', 'placeholder'=>'Denda keterlambatan'), $denda);?>
+                              <?php echo form_input(array('name'=>'denda', 'id'=>'denda', 'class'=>'form-control', 'placeholder'=>'Denda keterlambatan', 'readonly' => 'True'), $denda);?>
                               <?php echo form_error('denda'); ?>
                             </div>
                         </div>
@@ -929,7 +967,7 @@
                     }
                 ?>
                 <?php 
-                    if($show_ppjb == ""){
+                    if($show_ppjb == "" and ($_SESSION['kd_role'] == "RL003" or $_SESSION['kd_role'] == "RL001")){
                     
                         $attributes = array('class' => 'form-horizontal', 'id' => 'bayar_ppjb');
                         echo form_open('Transaksimaster/bayar_ppjb', $attributes); 

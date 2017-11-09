@@ -18,7 +18,8 @@ class Cash extends CI_Model {
             'tgl_trans'=> date('Y-m-d',strtotime($data['tgl_bayar'])),
             'kd_kar'=>$data['kar_input'],
             'deleted'=>0,
-            'is_transfer' => $data['is_transfer']
+            'is_transfer' => $data['is_transfer'],
+            'keterangan' => $data['keterangan']
         );
 
         $query = $this->db->insert('cash', $query);

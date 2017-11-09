@@ -46,10 +46,10 @@ class Welcome extends CI_Controller {
                         redirect('Transaksimaster');
                     } else if($role == "RL002"){
                         $this->session->set_tempdata($temp[0], NULL, $this->Timeout->get_time()->lama);
-                        redirect('Transaksibayar');
+                        redirect('Transaksimaster');
                     } else if($role == "RL003"){
                         $this->session->set_tempdata($temp[0], NULL, $this->Timeout->get_time()->lama);
-                        redirect('Transaksiadmin2');
+                        redirect('Transaksimaster');
                     }
                 }
             }else{

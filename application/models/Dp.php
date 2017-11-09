@@ -19,7 +19,8 @@ class Dp extends CI_Model {
             'jatuh_tempo'=> date('Y-m-d',strtotime($data['jatuh_tempo'])),
             'tgl_trans'=> date('Y-m-d',strtotime($data['tgl_bayar'])),
             'deleted'=>0,
-            'is_transfer' => $data['is_transfer']
+            'is_transfer' => $data['is_transfer'],
+            'keterangan' => $data['keterangan']
         );
 
         $query = $this->db->insert('dp', $query);
@@ -98,7 +99,7 @@ class Dp extends CI_Model {
         }
         if ($wc != ""){$wc = " and " . $wc;}
         $query = $this->db->query("select dp.kd_nota, dp.kd_trans, DATE_FORMAT(dp.tgl_trans, '%d-%m-%Y') as tgl_trans, dp.bayar, DATE_FORMAT(dp.jatuh_tempo, '%d-%m-%Y') as jatuh_tempo, dp.kd_kar, dp.updated, dp.deleted, dp.is_transfer, cust.nama as nama_cust, cust.alamat, 
-        cust.telp, cust.telp2, cust.telp3, cust.kecamatan, cust.kelurahan, tr.cicilan, tr.dp_cicilan, kar.nama as nama_agen, blok.nama_blok, ta.nomor_tanah
+        cust.telp, cust.telp2, cust.telp3, cust.kecamatan, cust.kelurahan, tr.cicilan, tr.dp_cicilan, kar.nama as nama_agen, blok.nama_blok, ta.nomor_tanah, ROUND(tr.dp/tr.dp_cicilan) as tunggakan,  (YEAR(now()) - YEAR(dp.jatuh_tempo)) * 12 + (MONTH(now()) - MONTH(dp.jatuh_tempo)) as bulan_telat
         from transaksi tr
         left join customer cust on tr.kd_cust = cust.kd_cust 
         left join tanah ta on ta.kd_tanah = tr.kd_tanah
