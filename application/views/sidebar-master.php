@@ -39,6 +39,12 @@
                   </a>
               </li>
               <li class="sub-menu">
+                  <a href="<?= base_url();?><?= index_page();?>/Masterjenispemasukan" id="menu_jenis_pemasukan" >
+                      <i class="fa fa-exchange"></i>
+                      <span>Master Jenis Pemasukan</span>
+                  </a>
+              </li>
+              <li class="sub-menu">
                   <a href="<?= base_url();?><?= index_page();?>/Mastercustomeradmin"  id="menu_customer">
                       <i class="fa fa-users"></i>
                       <span>Master Customer</span>

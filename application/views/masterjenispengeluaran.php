@@ -47,7 +47,7 @@
           	
             <div class="<?=$show_insert;?>">
                 <div class="header-div-plain col-sm-8 col-sm-offset-2 mt" id="div-header">
-                    <span class="fa fa-file"></span><span>MASTER JENIS PENGELUARAN</span>
+                    <span class="fa fa-file"></span><span>MASTER TABEL OBAT</span>
                 </div>
                 <div class="col-sm-8 col-sm-offset-2 white-bg mb">
                      <?php 
@@ -55,13 +55,12 @@
                         echo form_open('Masterjenispengeluaran/add_new_data', $attributes); 
                     ?>
                           <div class="form-group">
-                            <label class="control-label col-sm-4" for="tnama">Jenis Pengeluaran:</label>
+                            <label class="control-label col-sm-4" for="tnama">Obat:</label>
                             <div class="col-sm-6">
-                              <?php echo form_input(array('name'=>'name', 'id'=>'name', 'class'=>'form-control', 'placeholder'=>'Masukkan jenis pengeluaran'), $name);?>
+                              <?php echo form_input(array('name'=>'name', 'id'=>'name', 'class'=>'form-control', 'placeholder'=>'Masukkan nama obat'), $name);?>
                               <?php echo form_error('id'); ?>
                             </div>
                           </div>
-
                           <div class="form-group"> 
                             <div class="col-sm-12">
                               <button type="submit" class="btn btn-success btn-custom center-block" id="submit" name="submit">Tambahkan Data Baru</button>
@@ -137,7 +136,7 @@
                 </div>
             </div>
             <div class="header-div-plain col-sm-12 mt" id="div-header">
-                <span class="fa fa-table"></span><span>DATA JENIS PENGELUARAN</span>
+                <span class="fa fa-table"></span><span>DATA TABEL OBAT</span>
             </div>
             <div class="detail-tabel col-sm-12">
                  <div class="col-sm-12 pl pr">
@@ -145,12 +144,21 @@
                         <table id="tbkaryawan" class="table table-striped table-bordered" cellspacing="0" width="100%">
                             <thead>
                               <tr>
-                                <th>Jenis Pengeluaran</th>
+                                <th>Obat</th>
                                 <th>Ubah</th>
                                 <th>Hapus</th>
                               </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>Turunkan PH</td>
+                                    <td>
+                                        <button type='submit' class='btn btn-info center-block'><span class='glyphicon glyphicon-pencil'></span></button>
+                                    </td>
+                                    <td>
+                                        <button type='submit'  class='btn btn-danger center-block'><span class='glyphicon glyphicon-trash'></span></button>
+                                    </td>
+                                </tr>
                                 <?php
                                     foreach ($jenispengeluaran as $row)
                                     {

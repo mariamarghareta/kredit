@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-3 col-sm-offset-1 ">Jenis Pengeluaran:</label>
                         <div class="col-sm-4">
-                            <select name="cb_jenis" id="cb_jenis" class="form-control">
+                            <select name="cb_jenis" id="cb_jenis" class="form-control" data-live-search="true">
                                 <option value="all">All</option>
                                 <?php
                                     for($i=0; $i<count($jenispengeluaran);$i++){

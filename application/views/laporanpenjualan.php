@@ -269,7 +269,7 @@
                                                 
                                                     if(substr($temp['kd_nota'],0,1) == "M"){
                                                 
-                                                            echo "$temp[keterangan]</br>Tgl. Bayar: $temp[tgl_trans] </br>Transfer: $temp[is_transfer] $catatan";
+                                                            echo "$temp[keterangan]</br>Tgl. Bayar: $temp[tgl_trans] </br>Transfer: $temp[is_transfer] $catatan </br>Jenis Pemasukan: $temp[name]";
 
                                                             $attributes = array('class' => 'form-horizontal', 'id' => 'lihat_detail');
                                                             echo form_open('Masterpemasukan/ubah_pemasukan', $attributes); 

@@ -8,7 +8,7 @@ class Pemasukan extends CI_Model {
         $this->load->database();
     }
 
-    public function insert($biaya, $tgl_trans, $kd_kar, $ket, $pj, $is_transfer){
+    public function insert($biaya, $tgl_trans, $kd_kar, $ket, $pj, $is_transfer, $jenis_pemasukan){
         if ($is_transfer == null){$is_transfer = 0;}
         $array = array(
             'pemasukan'=>$biaya,
@@ -16,7 +16,8 @@ class Pemasukan extends CI_Model {
             'tgl_pemasukan'=>date('Y-m-d',strtotime($tgl_trans)),
             'keterangan'=>$ket,
             'penanggung_jawab'=>$pj,
-            'is_transfer' => $is_transfer
+            'is_transfer' => $is_transfer,
+            'kd_jenispemasukan' => $jenis_pemasukan
         );
         $query = $this->db->insert('pemasukan', $array);
         return $query;

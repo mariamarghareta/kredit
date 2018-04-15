@@ -137,8 +137,10 @@ class Pendapatan extends CI_Model {
         
         
         if($wc != ""){$wc = " and " . $wc;}
-        $query= $this->db->query("select DATE_FORMAT(g.tgl_trans, '%d-%m-%Y') as tgl_trans, g.kd_trans, g.kd_nota, g.bayar, g.keterangan, g.is_transfer, g.catatan
+        $query= $this->db->query("select DATE_FORMAT(g.tgl_trans, '%d-%m-%Y') as tgl_trans, g.kd_trans, g.kd_nota, g.bayar, g.keterangan, g.is_transfer, g.catatan, jenispemasukan.name
             from pendapatan g $fr 
+            left join pemasukan on g.kd_nota = pemasukan.kd_pemasukan
+            left join jenispemasukan on jenispemasukan.id = pemasukan.kd_jenispemasukan
             where g.kd_trans = '$kode' $wc order by g.tgl_trans" );
         return $query->result_array();
     }  

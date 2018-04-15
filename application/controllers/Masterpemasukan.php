@@ -11,6 +11,7 @@ class Masterpemasukan extends CI_Controller {
         $this->load->library('session');
         $this->load->model('Timeout');
         $this->load->model('Pemasukan');
+        $this->load->model('Jenispemasukan');
     }
     private $data;
 	public function index()
@@ -48,6 +49,7 @@ class Masterpemasukan extends CI_Controller {
         $this->data['is_transfer']="";
     }
     public function show(){
+        $this->data["jenispemasukan"] = $this->Jenispemasukan->show_all();
         $this->load->view('masterpemasukan', $this->data);
     }
     public function add_new_data(){
@@ -59,6 +61,7 @@ class Masterpemasukan extends CI_Controller {
         $this->data['pj'] = $this->input->post('pj');
         $this->data['show_update']="none";
         $this->data['is_transfer']=$this->input->post('is_transfer');
+        $this->data['cb_jenis']= $this->input->post('cb_jenis');
 
         $this->form_validation->set_rules('uang', '', 'required', array('required' => 'Harus diisi'));
         $this->form_validation->set_rules('ket', '', 'required', array('required' => 'Harus diisi'));
@@ -66,7 +69,7 @@ class Masterpemasukan extends CI_Controller {
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>'); 
         
         if ($this->form_validation->run() == TRUE){
-            $hasil = $this->Pemasukan->insert(str_replace(".", "", $this->data['uang']),$this->data['tanggal'], $_SESSION['kd_kar'], $this->data['ket'], $this->data['pj'], $this->data['is_transfer']);
+            $hasil = $this->Pemasukan->insert(str_replace(".", "", $this->data['uang']),$this->data['tanggal'], $_SESSION['kd_kar'], $this->data['ket'], $this->data['pj'], $this->data['is_transfer'], $this->data['cb_jenis']);
             if($hasil == 1){
                 $this->clear();
                 $this->data['msg'] = "<div id='err_msg' class='alert alert-success sldown' style='display:none;'>Pemasukan Berhasil ditambahkan</div>";

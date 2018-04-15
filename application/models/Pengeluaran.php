@@ -37,17 +37,21 @@ class Pengeluaran extends CI_Model {
         $wc="";
         if($range == "bulan"){
             
-            $wc .= ("and DATE_FORMAT(p.tgl_pengeluaran, '%m-%Y') =  '$par1' ");
+            $wc .= (" DATE_FORMAT(p.tgl_pengeluaran, '%m-%Y') =  '$par1' ");
         } else if($range=="jangka"){
             
-            $wc .= ("and DATE_FORMAT(p.tgl_pengeluaran,'%Y-%m-%d') >=  STR_TO_DATE('$par1', '%d-%m-%Y') and DATE_FORMAT(p.tgl_pengeluaran,'%Y-%m-%d') <=  STR_TO_DATE('$par2', '%d-%m-%Y')");
+            $wc .= (" DATE_FORMAT(p.tgl_pengeluaran,'%Y-%m-%d') >=  STR_TO_DATE('$par1', '%d-%m-%Y') and DATE_FORMAT(p.tgl_pengeluaran,'%Y-%m-%d') <=  STR_TO_DATE('$par2', '%d-%m-%Y')");
         }
         if($jenispengeluaran != "all"){
-            $wc .= (" and kd_jenispengeluaran = '". $jenispengeluaran ."'");
+            $wc .= ("  kd_jenispengeluaran = '". $jenispengeluaran ."'");
+        }
+        if($wc != ""){
+            $wc = " where " . $wc;
         }
         $query= $this->db->query("select p.kd_pengeluaran, p.pengeluaran, DATE_FORMAT(p.tgl_pengeluaran, '%d-%m-%Y') as tgl_pengeluaran, k.nama as nama_kar, p.keterangan, p.penanggung_jawab, jp.name
-        from pengeluaran p, karyawan k, jenispengeluaran jp
-        where p.kd_kar = k.kd_kar and jp.id = p.kd_jenispengeluaran
+        from pengeluaran p 
+        left join karyawan k on p.kd_kar = k.kd_kar
+        left join jenispengeluaran jp on jp.id = p.kd_jenispengeluaran  
         $wc " );
         return $query->result_array();
     }

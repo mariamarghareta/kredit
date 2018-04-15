@@ -1202,8 +1202,10 @@
     }
     //cari role
     var getrole = function(){
-        $temp = $("#cbagen").val().split(";");
-        $("#lbjabatan").html($temp[1]);
+        if($("#cbagen").val().indexOf(";") >= 0){
+            $temp = $("#cbagen").val().split(";");
+            $("#lbjabatan").html($temp[1]);
+        }
     }
   </script>
 

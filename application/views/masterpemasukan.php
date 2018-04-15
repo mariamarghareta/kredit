@@ -58,10 +58,30 @@
                 <div class="col-sm-10 col-sm-offset-1 white-bg mb">
                     <?php 
                         $attributes = array('class' => 'form-horizontal', 'id' => 'form_pemasukan');
-                        echo form_open('Masterpemasukan/add_new_data', $attributes); 
+                        echo form_open('Masterpemasukan/add_new_data', $attributes);
                     ?>
                     <!--kolom kiri-->
                     <div class="col-sm-12 mt">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" >Jenis Pengeluaran:</label>
+                            <div class="col-sm-3">
+                                <select name="cb_jenis" id="cb_jenis" class="form-control">
+                                    <?php
+                                    for($i=0; $i<count($jenispemasukan);$i++){
+                                        if($jenispemasukan[$i]->id == $cb_jenis){
+                                            ?>
+                                            <option value= <?php echo ($jenispemasukan[$i]->id); ?> selected>  <?=($jenispemasukan[$i]->name)?> </option>
+                                            <?php
+                                        }else{
+                                            ?>
+                                            <option value= <?php echo ($jenispemasukan[$i]->id); ?> >  <?=($jenispemasukan[$i]->name)?> </option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="control-label col-sm-4" >Jumlah Pemasukan:</label>
                             <div class="col-sm-3">

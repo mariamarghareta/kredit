@@ -39,7 +39,7 @@ class Masterblok extends CI_Controller {
         $this->check_role();
         $this->clear();
         $this->data['blok'] = $this->Blok->show_all();
-        $this->load->view('master-blok', $this->data);
+        $this->load->view('master_tebar_bibit', $this->data);
 	}
     public function clear(){
         $this->data['show_insert']="";

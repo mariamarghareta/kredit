@@ -71,11 +71,11 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label col-sm-3 col-sm-offset-1">Password Baru:</label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-10">
                         <?php echo form_input(array('name'=>'new', 'id'=>'new', 'class'=>'form-control', 'placeholder'=>'Masukkan Password baru', 'type'=>'password'), $new);?>
                         <?php echo form_error('new'); ?>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                         <button type="button" class="btn btn-info fa fa-eye" id="see"></button>
                     </div>
                 </div>

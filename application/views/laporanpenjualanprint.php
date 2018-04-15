@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     }
 
                                     if(substr($temp['kd_nota'],0,1) == "M"){
-                                        echo "$temp[keterangan]</br>Tgl. Bayar: $temp[tgl_trans] </br>Transfer: $temp[is_transfer] $catatan";
+                                        echo "$temp[keterangan]</br>Tgl. Bayar: $temp[tgl_trans] </br>Transfer: $temp[is_transfer] $catatan</br>Jenis Pemasukan: $temp[name]";
                                     } 
                                      echo "</br>";
                                     if ($temp["is_transfer"] == "Tidak"){

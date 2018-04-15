@@ -53,7 +53,7 @@
       <section id="main-content">
           <section class="wrapper site-min-height">
                 <div class="header-div-plain col-sm-10 col-sm-offset-1 mt" id="div-header">
-                    <span class="fa fa-user"></span><span>MASTER CUSTOMER</span>
+                    <span class="fa fa-user"></span><span>MASTER MITRA BISNIS</span>
                 </div>
                 <div class="col-sm-10 col-sm-offset-1 white-bg mb">
                     <?php 
@@ -91,10 +91,11 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-4" for="nama">Telepon 3:</label>
+                            <label class="control-label col-sm-4" for="nama">Jenis Customer:</label>
                             <div class="col-sm-8">
-                              <?php echo form_input(array('name'=>'telp3', 'id'=>'telp3', 'class'=>'form-control', 'placeholder'=>'Masukkan nomor telepon pembeli'), $telp3);?>
-                              <?php echo form_error('telp3'); ?>
+                              <select class="form-control">
+                                  <option>Customer</option>
+                              </select>
                             </div>
                         </div>
                           <div class="form-group">
@@ -177,7 +178,7 @@
                     <?php echo form_close(); ?>   
                 </div>
                 <div class="header-div-plain col-sm-12 mt" id="div-header">
-                    <span class="fa fa-table"></span><span>DATA CUSTOMER</span>
+                    <span class="fa fa-table"></span><span>DATA MITRA BISNIS</span>
                 </div>
                 <div class="detail-tabel col-sm-12">
                      <div class="col-sm-12 pr pl">

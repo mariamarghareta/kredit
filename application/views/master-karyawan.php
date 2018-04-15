@@ -46,7 +46,7 @@
           <section class="wrapper site-min-height">
               <div class=" <?=$hide_insert;?>">
                 <div class="header-div-plain col-sm-10 col-sm-offset-1 mt" id="div-header">
-                    <span class="fa fa-file"></span><span>MASTER KARYAWAN</span>
+                    <span class="fa fa-file"></span><span>MASTER USER</span>
                 </div>
                 <div class="col-sm-10 col-sm-offset-1 white-bg ">
                      <?php 
@@ -253,7 +253,7 @@
             </div>
             
             <div class="header-div-plain col-sm-12 mt" id="div-header">
-                <span class="fa fa-table"></span><span>DATA KARYAWAN</span>
+                <span class="fa fa-table"></span><span>DATA USER</span>
             </div>
             <div class="detail-tabel col-sm-12">
                 <div class="col-sm-12 pl pr">

@@ -158,6 +158,54 @@
             <div class="detail-tabel col-sm-12">
                  <div class="col-sm-12 pr pl">
                     <div class="table-responsive">
+                        <table
+                                id="table"
+                                data-toggle="true"
+                                data-show-columns="false"
+                                data-height="500">
+                            <thead>
+                            <tr>
+                                <th data-field="name">Name</th>
+                                <th data-field="matchcode">Matchcode</th>
+                                <th data-field="action"
+                                    data-align="center"
+                                    data-formatter="actionFormatter">Action</th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link nav material-icons md-11" href="#">first_page</a></li>
+                                    <li class="page-item"><a class="page-link nav material-icons md-11" href="#">chevron_left</a></li>
+                                    {% for i in range(0,page_count) %}
+                                    {% if i < max_data/data_per_page %}
+                                    <li {% if i == 0 %} class="page-item page active" {% else %} class="page-item page" {% endif %} index="{{i}}"><a class="page-link page" href="#">{{ i+1 }}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <li class="page-item"><a class="page-link nav material-icons md-11" href="#">chevron_right</a></li>
+                                    <li class="page-item"><a class="page-link nav material-icons md-11" href="#">last_page</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-4 form-horizontal margin-up-down">
+                                <div class="form-group">
+                                    <label for="select_data_count" class="control-label col-sm-8">Data per page:</label>
+                                    <div class="col-sm-4">
+                                        <select id="select_data_count" class="form-control" name="select_data_count">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" value="{{page_count}}" name="page_count" id="page_count"/>
+                        <input type="hidden" value="{{max_data}}" name="max_data" id="max_data"/>
+                        <input type="hidden" value="article" name="route" id="route"/>
+                        <!--
+
                         <table id="tab" class="table table-striped table-bordered" cellspacing="0" width="100%">
                             
                             <thead>
@@ -210,6 +258,7 @@
 
                             </tbody>
                         </table>
+                        -->
                      </div>
                 </div>
              </div>
